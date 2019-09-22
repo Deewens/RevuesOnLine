@@ -22,52 +22,64 @@ public class Main {
 			System.out.println("Erreur.");
 			e.printStackTrace();
 		} */
-		
-		DAOFactory daos = DAOFactory.getDAOFactory(Persistance.ListeMemoire);
 
 		DateTimeFormatter formatage = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 		LocalDate dateDebut = LocalDate.parse("10/02/2019", formatage);
 		LocalDate dateFin = LocalDate.parse("20/02/2019", formatage);
 		
+		DAOFactory daos = DAOFactory.getDAOFactory(Persistance.ListeMemoire);
+		
 		Abonnement abo = new Abonnement(1, 2, dateDebut, dateFin);
 		
 		try {
 			daos.getAbonnementDAO().create(abo);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		try {
-			List<Abonnement> abo1 = daos.getAbonnementDAO().getAll();
-			System.out.println(abo1.get(1).getDate_debut());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		LocalDate dateDebut2 = LocalDate.parse("10/02/2018", formatage);
-		LocalDate dateFin2 = LocalDate.parse("20/02/2018", formatage);
-		
-		abo = new Abonnement(1, 2, dateDebut2, dateFin2);
-		
-		try {
-			daos.getAbonnementDAO().update(abo);
-		} catch (Exception e) {
+		} catch(Exception e) {
+			System.out.println("[ListeMemoire] Erreur ajout \"Abonnement\" : " + e.getMessage());
 			e.printStackTrace();
 		}
 		
 		try {
-			List<Abonnement> abo1 = daos.getAbonnementDAO().getAll();
-			System.out.println(abo1.get(1).getDate_debut());
+			List<Abonnement> abos = daos.getAbonnementDAO().getAll();
+			if(!abos.isEmpty()) {
+				abos.forEach(aboI -> {
+					System.out.println(aboI.getId_client()); 
+					System.out.println(aboI.getId_revue());
+					System.out.println(aboI.getDate_debut());
+					System.out.println(aboI.getDate_fin());
+				});
+			}
+			else {
+				System.out.println("La liste \"Abonnement\" ne contient aucune données.");
+			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			System.out.println("[ListeMemoire] Erreur de lecture : " + e.getMessage());
 			e.printStackTrace();
 		}
-
+		
+		try {
+			daos.getAbonnementDAO().delete(abo);
+		} catch (Exception e) {
+			System.out.println("[ListeMemoire] Erreur de suppresion : " + e.getMessage());
+			e.printStackTrace();
+		}
+		
+		try {
+			List<Abonnement> abos = daos.getAbonnementDAO().getAll();
+			if(!abos.isEmpty()) {
+				abos.forEach(aboI -> {
+					System.out.println(aboI.getId_client()); 
+					System.out.println(aboI.getId_revue());
+					System.out.println(aboI.getDate_debut());
+					System.out.println(aboI.getDate_fin());
+				});
+			}
+			else {
+				System.out.println("La liste \"Abonnement\" ne contient aucune données.");
+			}
+		} catch (Exception e) {
+			System.out.println("[ListeMemoire] Erreur de lecture : " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
-	
-	
-
 }

@@ -3,23 +3,17 @@ package fr.iutmetz.td2;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Objects;
 
 public class ListeMemoireAbonnementDAO implements AbonnementDAO {
-	
 	private static ListeMemoireAbonnementDAO instance;
-	
 	private List<Abonnement> data;
 	
 	private ListeMemoireAbonnementDAO() {
 		this.data = new ArrayList<Abonnement>();
-		
-		DateTimeFormatter formatage = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDate dateDebut = LocalDate.parse("10/05/2019", formatage);
-		LocalDate dateFin = LocalDate.parse("20/09/2019", formatage);
-		
-		this.data.add(new Abonnement(1, 1, dateDebut, dateFin));
 	}
 
 	public static ListeMemoireAbonnementDAO getInstance() {
@@ -31,29 +25,40 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 	
 	@Override
 	public boolean create(Abonnement obj) throws Exception {
+		if(obj == null) {
+			return false;
+		}
 		
 		data.add(obj);
-		
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean delete(Abonnement obj) throws Exception {
-		// TODO Auto-generated method stub
+		Iterator<Abonnement> dataIterator = data.iterator();
+		
+		while (dataIterator.hasNext()) {
+			Abonnement abo = dataIterator.next();
+			if(obj.getId_client() == abo.getId_client() && obj.getId_revue() == abo.getId_revue()) {
+				dataIterator.remove();
+				return true;
+			}
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean update(Abonnement obj) throws Exception {
-		int idxClient = this.data.indexOf(obj.getId_client());
-		int idxRevue =  this.data.indexOf(obj.getId_revue());
+		ListIterator<Abonnement> dataListIterator = data.listIterator();
 		
-		for(int i = 0; i < data.size(); i++) {
-			if(obj.getId_client() == data.get(i).getId_client() && obj.getId_revue() == data.get(i).getId_revue()) {
-				this.data.set(i, obj);
+		while (dataListIterator.hasNext()) {
+			Abonnement abo = dataListIterator.next();
+			if(obj.getId_client() == abo.getId_client() && obj.getId_revue() == abo.getId_revue()) {
+				dataListIterator.set(obj);
+				return true;
 			}
-		}
-		
+		}	
 		return false;
 	}
 

@@ -10,6 +10,4 @@ public interface DAO<T> {
 	public boolean update(T obj) throws Exception;
 	
 	public List<T> getAll() throws Exception;
-		
-	public T getById(int id) throws Exception;
 }

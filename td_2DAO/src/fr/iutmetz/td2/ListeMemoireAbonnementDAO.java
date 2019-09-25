@@ -100,7 +100,7 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 		
 		while(dataIterator.hasNext()) {
 			Abonnement datum = dataIterator.next();
-			if(datum.getDate_debut() == date_debut) {
+			if(datum.getDate_debut().isEqual(date_debut)) {
 				result.add(datum);
 			}
 		}
@@ -114,7 +114,7 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 		
 		while(dataIterator.hasNext()) {
 			Abonnement datum = dataIterator.next();
-			if(datum.getDate_fin() == date_fin) {
+			if(datum.getDate_fin().isEqual(date_fin)) {
 				result.add(datum);
 			}
 		}

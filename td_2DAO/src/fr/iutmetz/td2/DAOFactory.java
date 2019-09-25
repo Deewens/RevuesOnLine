@@ -18,6 +18,7 @@ public abstract class DAOFactory {
 	}
 	
 	public abstract AbonnementDAO getAbonnementDAO();
+	public abstract ClientDAO getClientDAO();
 	
 	// Rajouter les autres get
 }

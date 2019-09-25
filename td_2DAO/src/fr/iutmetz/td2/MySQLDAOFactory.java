@@ -10,4 +10,10 @@ public class MySQLDAOFactory extends DAOFactory {
 		// TODO Auto-generated method stub
 		return MySQLAbonnementDAO.getInstance();
 	}
+
+	@Override
+	public ClientDAO getClientDAO() {
+		// TODO Auto-generated method stub
+		return MySQLClientDAO.getInstance();
+	}
 }

@@ -12,5 +12,9 @@ public class ListeMemoireDAOFactory extends DAOFactory {
 		return ListeMemoireAbonnementDAO.getInstance();
 	}
 	
+	public ClientDAO getClientDAO() {
+		return ListeMemoireClientDAO.getInstance();
+	}
+	
 	
 }

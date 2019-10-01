@@ -1,4 +1,4 @@
-package fr.iutmetz.td2;
+package fr.iutmetz.td2.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,6 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.iutmetz.td2.dao.AbonnementDAO;
+import fr.iutmetz.td2.exceptions.NonExistentDataListException;
+import fr.iutmetz.td2.exceptions.NonExistentDataObjectException;
+import fr.iutmetz.td2.pojo.Abonnement;
 
 import java.time.*;
 import java.sql.Date;
@@ -71,7 +76,7 @@ public class MySQLAbonnementDAO implements AbonnementDAO {
 	}
 
 	@Override
-	public boolean update(Abonnement obj) throws SQLException {
+	public boolean update(Abonnement obj, String[] params) throws SQLException {
 		PreparedStatement query = this.connect().prepareStatement("UPDATE abonnement SET date_debut = ?, date_fin = ? WHERE id_client = ? AND id_revue = ?");
 		query.setDate(1, Date.valueOf(obj.getDate_debut()));
 		query.setDate(2, Date.valueOf(obj.getDate_fin()));
@@ -84,7 +89,7 @@ public class MySQLAbonnementDAO implements AbonnementDAO {
 	}
 
 	@Override
-	public List<Abonnement> getAll() throws SQLException {
+	public ArrayList<Abonnement> getAll() throws SQLException {
 		List<Abonnement> aboList = new ArrayList<>();
 
 		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM abonnement");
@@ -101,12 +106,18 @@ public class MySQLAbonnementDAO implements AbonnementDAO {
 			aboList.add(abo);
 		}
 
-
-		return aboList;
+		return (ArrayList<Abonnement>) aboList;
 	}
 
 	@Override
-	public Abonnement getByIds(int idClient, int idRevue) throws Exception {
+	public Abonnement getByIds(int idClient, int idRevue) throws SQLException {
+		if(idClient < 0) {
+			throw new IllegalArgumentException("idClient must be > 0"); 
+		}
+		if(idRevue < 0) {
+			throw new IllegalArgumentException("idRevue must be > 0");
+		}
+		
 		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM abonnement WHERE id_client = ? AND id_revue = ?");
 		query.setInt(1, idClient);
 		query.setInt(2, idRevue);
@@ -122,13 +133,12 @@ public class MySQLAbonnementDAO implements AbonnementDAO {
 			
 			return abo;
 		}
-		else {
-			throw new IllegalArgumentException("l'abonnement que vous recherchez n'existe pas");
-		}
+		
+		return null;
 	}
 
 	@Override
-	public List<Abonnement> getByDate_debut(LocalDate date_debut) throws Exception {
+	public List<Abonnement> getByDate_debut(LocalDate date_debut) throws SQLException {
 		List<Abonnement> aboList = new ArrayList<>();
 
 		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM abonnement WHERE date_debut = ?");
@@ -150,7 +160,7 @@ public class MySQLAbonnementDAO implements AbonnementDAO {
 	}
 
 	@Override
-	public List<Abonnement> getByDate_fin(LocalDate date_fin) throws Exception {
+	public List<Abonnement> getByDate_fin(LocalDate date_fin) throws SQLException {
 		List<Abonnement> aboList = new ArrayList<>();
 
 		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM abonnement WHERE date_fin = ?");

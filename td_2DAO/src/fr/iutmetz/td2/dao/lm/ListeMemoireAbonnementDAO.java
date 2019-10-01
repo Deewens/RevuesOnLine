@@ -1,4 +1,4 @@
-package fr.iutmetz.td2;
+package fr.iutmetz.td2.dao.lm;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -8,6 +8,12 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 import java.util.Optional;
+
+import fr.iutmetz.td2.dao.AbonnementDAO;
+import fr.iutmetz.td2.exceptions.ExistingCompositeKeyException;
+import fr.iutmetz.td2.exceptions.NonExistentDataListException;
+import fr.iutmetz.td2.exceptions.NonExistentDataObjectException;
+import fr.iutmetz.td2.pojo.Abonnement;
 
 public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 	private static ListeMemoireAbonnementDAO instance;
@@ -22,6 +28,7 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 		LocalDate dateFin = LocalDate.parse("20/02/2019", formatage);
 		
 		this.data.add(new Abonnement(1, 2, dateDebut, dateFin));
+		this.data.add(new Abonnement(2, 4, dateDebut, dateFin));
 	}
 
 	public static ListeMemoireAbonnementDAO getInstance() {
@@ -32,57 +39,63 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 	}
 	
 	@Override
-	public boolean create(Abonnement obj) throws Exception {
+	public boolean create(Abonnement obj) throws ExistingCompositeKeyException {
 		Iterator<Abonnement> dataIterator = data.iterator();
+		
 		while (dataIterator.hasNext()) {
 			Abonnement datum = dataIterator.next();
 			if(obj.getId_client() == datum.getId_client() && obj.getId_revue() == datum.getId_revue()) {
-				return false;
+				throw new ExistingCompositeKeyException("La clé primaire existe déjà.");
+				
 			}
 		}
 		
-		this.data.add(obj);
+		boolean create = this.data.add(obj);
+		return create;
+	}
+
+	@Override
+	public boolean delete(Abonnement obj) throws NonExistentDataObjectException {
+		Abonnement delete;
+		int idx = this.data.indexOf(obj);
+		
+		if(idx == -1) {
+			throw new NonExistentDataObjectException("Tentative de suppresion d'un objet inexistant.");
+		}
+		else {
+			delete = this.data.remove(idx);
+		}
+		
+		return obj.equals(delete);
+	}
+
+	@Override
+	public boolean update(Abonnement obj, String[] params) throws NonExistentDataObjectException {
+		int idx = this.data.indexOf(obj);
+		
+		if(idx == -1) {
+			throw new NonExistentDataObjectException("Tentative de modification d'un object inexistant.");
+		}
+		
+		this.data.set(idx, obj);
 		return true;
 	}
-
+	
 	@Override
-	public boolean delete(Abonnement obj) throws Exception {
+	public ArrayList<Abonnement> getAll() {
+		return (ArrayList<Abonnement>) this.data;
+	}
+	
+	@Override
+	public Abonnement getByIds(int idClient, int idRevue) {
 		Iterator<Abonnement> dataIterator = this.data.iterator();
 		
-		while (dataIterator.hasNext()) {
-			Abonnement datum = dataIterator.next();
-			if(obj.getId_client() == datum.getId_client() && obj.getId_revue() == datum.getId_revue()) {
-				dataIterator.remove();
-				return true;
-			}
+		if(idClient < 0) {
+			throw new IllegalArgumentException("idClient must be > 0"); 
 		}
-		
-		return false;
-	}
-
-	@Override
-	public boolean update(Abonnement obj) throws Exception {
-		ListIterator<Abonnement> dataListIterator = this.data.listIterator();
-		int idx = this.data.indexOf(obj);
-
-		while (dataListIterator.hasNext()) {
-			Abonnement datum = dataListIterator.next();
-			if(obj.getId_client() == datum.getId_client() && obj.getId_revue() == datum.getId_revue()) {
-				dataListIterator.set(obj);
-				return true;
-			}
-		}	
-		return false;
-	}
-	
-	@Override
-	public List<Abonnement> getAll() throws Exception {
-		return data;
-	}
-	
-	@Override
-	public Abonnement getByIds(int idClient, int idRevue) throws Exception {
-		Iterator<Abonnement> dataIterator = this.data.iterator();
+		if(idRevue < 0) {
+			throw new IllegalArgumentException("idRevue must be > 0");
+		}
 		
 		while (dataIterator.hasNext()) {
 			Abonnement datum = dataIterator.next();
@@ -90,11 +103,11 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 				return datum;
 			}
 		}
-		throw new IllegalArgumentException("l'abonnement que vous recherchez n'existe pas");
+		return null;
 	}
 
 	@Override
-	public List<Abonnement> getByDate_debut(LocalDate date_debut) throws Exception {
+	public List<Abonnement> getByDate_debut(LocalDate date_debut) {
 		Iterator<Abonnement> dataIterator = this.data.iterator();
 		List<Abonnement> result = new ArrayList<Abonnement>();
 		
@@ -108,7 +121,7 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 	}
 
 	@Override
-	public List<Abonnement> getByDate_fin(LocalDate date_fin) throws Exception {
+	public List<Abonnement> getByDate_fin(LocalDate date_fin) {
 		Iterator<Abonnement> dataIterator = this.data.iterator();
 		List<Abonnement> result = new ArrayList<Abonnement>();
 		
@@ -118,6 +131,7 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 				result.add(datum);
 			}
 		}
+		
 		return result;
 	}
 

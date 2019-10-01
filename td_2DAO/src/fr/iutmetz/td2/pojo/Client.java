@@ -1,4 +1,4 @@
-package fr.iutmetz.td2;
+package fr.iutmetz.td2.pojo;
 
 public class Client {
 	private int id_client;
@@ -22,9 +22,7 @@ public class Client {
 		this.ville = ville;
 		this.pays = pays;
 	}
-
-
-
+	
 	public int getId_client() {
 		return id_client;
 	}

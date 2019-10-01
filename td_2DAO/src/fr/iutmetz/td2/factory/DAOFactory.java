@@ -1,4 +1,10 @@
-package fr.iutmetz.td2;
+package fr.iutmetz.td2.factory;
+
+import fr.iutmetz.td2.Persistance;
+import fr.iutmetz.td2.dao.AbonnementDAO;
+import fr.iutmetz.td2.dao.ClientDAO;
+import fr.iutmetz.td2.dao.PeriodiciteDAO;
+import fr.iutmetz.td2.dao.RevueDAO;
 
 public abstract class DAOFactory {
 	public static DAOFactory getDAOFactory(Persistance cible) {
@@ -19,6 +25,8 @@ public abstract class DAOFactory {
 	
 	public abstract AbonnementDAO getAbonnementDAO();
 	public abstract ClientDAO getClientDAO();
+	public abstract PeriodiciteDAO getPeriodiciteDAO();
+	public abstract RevueDAO getRevueDAO();
 	
 	// Rajouter les autres get
 }

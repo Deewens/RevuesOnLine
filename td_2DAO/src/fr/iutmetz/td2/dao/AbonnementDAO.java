@@ -1,7 +1,9 @@
-package fr.iutmetz.td2;
+package fr.iutmetz.td2.dao;
 
 import java.time.*;
 import java.util.List;
+
+import fr.iutmetz.td2.pojo.Abonnement;
 
 public interface AbonnementDAO extends DAO<Abonnement> {
 	public Abonnement getByIds(int idClient, int idRevue) throws Exception;

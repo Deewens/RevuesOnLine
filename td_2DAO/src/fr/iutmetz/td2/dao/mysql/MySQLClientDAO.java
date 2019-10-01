@@ -1,4 +1,4 @@
-package fr.iutmetz.td2;
+package fr.iutmetz.td2.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -8,6 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.iutmetz.td2.dao.ClientDAO;
+import fr.iutmetz.td2.exceptions.NonExistentDataListException;
+import fr.iutmetz.td2.exceptions.NonExistentDataObjectException;
+import fr.iutmetz.td2.pojo.Client;
 
 public class MySQLClientDAO implements ClientDAO {
 	private static MySQLClientDAO instance;
@@ -42,7 +47,7 @@ public class MySQLClientDAO implements ClientDAO {
 	}
 	
 	@Override
-	public boolean create(Client obj) throws Exception {
+	public boolean create(Client obj) throws SQLException {
 		PreparedStatement query = this.connect().prepareStatement("INSERT INTO client(id_client, nom, prenom, no_rue, voie, code_postal, ville, pays) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
 		query.setInt(1, obj.getId_client());
 		query.setString(2, obj.getNom());
@@ -60,7 +65,7 @@ public class MySQLClientDAO implements ClientDAO {
 	}
 
 	@Override
-	public boolean delete(Client obj) throws Exception {
+	public boolean delete(Client obj) throws SQLException {
 		PreparedStatement query = this.connect().prepareStatement("DELETE FROM client WHERE id_client = ?");
 		query.setInt(1, obj.getId_client());
 
@@ -70,7 +75,7 @@ public class MySQLClientDAO implements ClientDAO {
 	}
 
 	@Override
-	public boolean update(Client obj) throws Exception {
+	public boolean update(Client obj, String[] params) throws SQLException {
 		PreparedStatement query = this.connect().prepareStatement("UPDATE  client SET nom = ?, prenom = ?, no_rue = ?, voie = ?, code_postal = ?, ville = ?, pays = ? WHERE id_client = ?");
 		query.setString(1, obj.getNom());
 		query.setString(2, obj.getPrenom());
@@ -88,7 +93,7 @@ public class MySQLClientDAO implements ClientDAO {
 	}
 
 	@Override
-	public List<Client> getAll() throws Exception {
+	public ArrayList<Client> getAll() throws SQLException {
 		List<Client> clientList = new ArrayList<>();
 
 		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM client");
@@ -108,13 +113,16 @@ public class MySQLClientDAO implements ClientDAO {
 
 			clientList.add(client);
 		}
-
-
-		return clientList;
+		
+		return (ArrayList<Client>) clientList;
 	}
 
 	@Override
 	public Client getById(int id) throws SQLException {
+		if(id < 0) {
+			throw new IllegalArgumentException("id must be > 0");
+		}
+		
 		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM client WHERE id_client = ?");
 		query.setInt(1, id);
 		
@@ -133,9 +141,8 @@ public class MySQLClientDAO implements ClientDAO {
 			
 			return client;
 		}
-		else {
-			throw new IllegalArgumentException("le client que vous recherchez n'existe pas");
-		}
+		
+		return null;
 	}
 
 	@Override
@@ -162,8 +169,7 @@ public class MySQLClientDAO implements ClientDAO {
 
 			clientList.add(client);
 		}
-
-
+		
 		return clientList;
 	}
 

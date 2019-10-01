@@ -1,4 +1,4 @@
-package fr.iutmetz.td2;
+package fr.iutmetz.td2.pojo;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

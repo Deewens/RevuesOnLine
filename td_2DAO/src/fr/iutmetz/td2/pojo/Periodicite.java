@@ -1,4 +1,4 @@
-package fr.iutmetz.td2;
+package fr.iutmetz.td2.pojo;
 
 public class Periodicite {
 	private int id;

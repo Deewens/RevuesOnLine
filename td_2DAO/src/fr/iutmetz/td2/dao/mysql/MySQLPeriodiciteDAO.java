@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.iutmetz.td2.dao.PeriodiciteDAO;
-import fr.iutmetz.td2.exceptions.NonExistentDataListException;
-import fr.iutmetz.td2.exceptions.NonExistentDataObjectException;
 import fr.iutmetz.td2.pojo.Periodicite;
 
 public class MySQLPeriodiciteDAO implements PeriodiciteDAO {
@@ -67,7 +65,7 @@ public class MySQLPeriodiciteDAO implements PeriodiciteDAO {
 	}
 
 	@Override
-	public boolean update(Periodicite obj, String[] params) throws SQLException {
+	public boolean update(Periodicite obj) throws SQLException {
 		PreparedStatement query = this.connect().prepareStatement("UPDATE periodicite SET libelle = ? WHERE id_periodicite = ?");
 		query.setString(1, obj.getLibelle());
 		query.setInt(2, obj.getId());

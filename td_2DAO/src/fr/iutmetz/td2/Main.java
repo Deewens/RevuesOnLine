@@ -1,17 +1,10 @@
 package fr.iutmetz.td2;
 
-import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 
-import fr.iutmetz.td2.exceptions.ExistingCompositeKeyException;
-import fr.iutmetz.td2.exceptions.NonExistentDataListException;
-import fr.iutmetz.td2.exceptions.NonExistentDataObjectException;
 import fr.iutmetz.td2.factory.DAOFactory;
 import fr.iutmetz.td2.pojo.Abonnement;
 import fr.iutmetz.td2.pojo.Client;
@@ -21,6 +14,13 @@ import fr.iutmetz.td2.pojo.Revue;
 public class Main {
 
 	public static void main(String[] args) {
+		int dataChoice = 0;
+		int optionChoice = 0;
+
+		int readAboChoice = 0;
+
+		boolean repeat;
+
 		Scanner sc = new Scanner(System.in);
 		DAOFactory daos = null;
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -30,15 +30,7 @@ public class Main {
 		System.out.println("Instructions d'utilisation :");
 		System.out.println("Pour naviguer dans le programme, vous devez indiquer le numéro du menu auquel vous souhaitez accéder et appuyer sur entrer.");
 		System.out.println();
-
-		int storageChoice = 0;
-		int dataChoice = 0;
-		int optionChoice = 0;
-
-		int readAboChoice = 0;
-
-		boolean repeat;
-
+		
 		/* ---------------------------
 		 * Choix du mode de stockage
 		 * --------------------------- */
@@ -48,8 +40,10 @@ public class Main {
 		 * Choix des données
 		 * --------------------------- */
 		do {
+			/* |----------------------------------| *
+			 * |----------- ABONNEMENT -----------| *
+			 * |----------------------------------| */
 			boolean restart = true; // Boolean de restart du formulaire
-
 			dataChoice = dataChoice();
 			switch(dataChoice) {
 			case 1: // Abonnement
@@ -196,6 +190,7 @@ public class Main {
 								abo = daos.getAbonnementDAO().getByIds(idClientAbo, idRevueAbo);
 								if(abo != null) {
 									System.out.println("Un abonnement existe déjà pour cette clé primaire. Merci de réessayer.");
+
 									aboKeyValid = false;
 								}
 								else {
@@ -252,6 +247,7 @@ public class Main {
 								abo = daos.getAbonnementDAO().getByIds(idClientAbo, idRevueAbo);
 								if(abo != null) {
 									aboKeyValid = true;
+									System.out.println(abo.getId_client() + "\t" + abo.getId_revue() + "\t" + abo.getDate_debut() + "\t" + abo.getDate_fin());
 								}
 								else {
 									System.out.println("L'abonnement que vous voulez modifier n'existe pas. Merci de réessayer.");
@@ -273,6 +269,7 @@ public class Main {
 							if(isUpdated) System.out.println("Modification de l'abonnement réussi !");
 							else System.out.println("Une erreur est survenue lors de la modification de l'abonnement.");
 						} catch (Exception e) {
+							System.out.println("ERREUR : " + e.getMessage());
 							e.printStackTrace();
 						}
 						repeat = false;
@@ -312,16 +309,9 @@ public class Main {
 							}
 						} while(!aboKeyValid);
 
-						try {
-							abo = daos.getAbonnementDAO().getByIds(idClientAbo, idRevueAbo);
-						} catch (Exception e) {
-							System.out.println("ERREUR : " + e.getMessage());
-							e.printStackTrace();
-						}
 
 						try {
 							boolean isDeleted = daos.getAbonnementDAO().delete(abo);
-							System.out.println(isDeleted);
 							if(isDeleted) System.out.println("Suppresion de l'abonnement réussi !");
 							else System.out.println("Une erreur est survenue lors de la suppresion de l'abonnement.");
 						} catch (Exception e) {
@@ -338,36 +328,111 @@ public class Main {
 				} while(repeat);
 				repeat = false;
 				break;
+				/* |----------------------------------| *
+				 * |-------------- CLIENT ------------| *
+				 * |----------------------------------| */
 			case 2: // Client
-				optionChoice = optionChoice();
-				Client client = new Client();
-				int idClient;
-				boolean clientKeyValid = false;
+				do {
+					optionChoice = optionChoice();
+					Client client = new Client();
+					int idClient;
+					boolean clientKeyValid = false;
 
-				switch(optionChoice) {
-				case 1: // Lire client
-					int readClientChoice = 0;
-					do {
-						readClientChoice = readClientChoice();
-						if(readClientChoice == 1) { // Lire tout
-							try {
-								List<Client> clients = daos.getClientDAO().getAll();
-								if(!clients.isEmpty()) {
-									clients.forEach(clientI -> {
-										System.out.println(clientI.getId_client() + "\t" + clientI.getNom() + "\t" + clientI.getPrenom() + "\t" + clientI.getNo_rue()
-										+ "\t" + clientI.getVoie() + "\t" + clientI.getVille() + "\t" + clientI.getPays()); 
-									});
+					switch(optionChoice) {
+					case 1: // Lire client
+						int readClientChoice = 0;
+						do {
+							readClientChoice = readClientChoice();
+							if(readClientChoice == 1) { // Lire tout
+								try {
+									List<Client> clients = daos.getClientDAO().getAll();
+									if(!clients.isEmpty()) {
+										clients.forEach(clientI -> {
+											System.out.println(clientI.getId_client() + "\t" + clientI.getNom() + "\t" + clientI.getPrenom() + "\t" + clientI.getNo_rue()
+											+ "\t" + clientI.getVoie() + "\t" + clientI.getVille() + "\t" + clientI.getPays()); 
+										});
+									}
+									else {
+										System.out.println("\"Client\" ne contient aucune données.");
+									}
+								} catch (Exception e) {
+									System.out.println("ERREUR : " + e.getMessage());
+									e.printStackTrace();
 								}
-								else {
-									System.out.println("\"Client\" ne contient aucune données.");
-								}
-							} catch (Exception e) {
-								System.out.println("ERREUR : " + e.getMessage());
-								e.printStackTrace();
+								repeat = false;
 							}
-							repeat = false;
+							else if(readClientChoice == 2) { // Lire en fonction de l'ID
+								do {
+									System.out.print("ID : ");
+									idClient = scanInt();
+									if(idClient < 1) {
+										System.out.println("La clé primaire doit être supérieur à 0.");
+									}
+								} while(idClient < 1);
+
+								try {
+									client = daos.getClientDAO().getById(idClient);
+									if(client != null) {
+										System.out.println(client.getId_client() + "\t" + client.getNom() + "\t" + client.getPrenom() + "\t" + client.getNo_rue()
+										+ "\t" + client.getVoie() + "\t" + client.getVille() + "\t" + client.getPays());
+									}
+									else {
+										System.out.println("Il n'existe pas de client pour cette clé.");
+									}
+
+								} catch (Exception e) {
+									System.out.println("ERREUR : " + e.getMessage());
+									e.printStackTrace();
+								}
+								repeat = false;
+							}
+							else if(readClientChoice == 3) { // Lire en fonction du nom et du prénom
+								System.out.print("Nom : ");
+								String nom = sc.nextLine();
+
+								System.out.print("Prenom : ");
+								String prenom = sc.nextLine();
+								try {
+									List<Client> clients = daos.getClientDAO().getByNomPrenom(nom, prenom);
+									if(!clients.isEmpty()) {
+										clients.forEach(clientI -> {
+											System.out.println(clientI.getId_client() + "\t" + clientI.getNom() + "\t" + clientI.getPrenom() + "\t" + clientI.getNo_rue()
+											+ "\t" + clientI.getVoie() + "\t" + clientI.getVille() + "\t" + clientI.getPays()); 
+										});
+									}
+									else {
+										System.out.println("\"Client\" ne contient pas de données pour ce nom et de prénom.");
+									}
+								} catch (Exception e) {
+									System.out.println("ERREUR : " + e.getMessage());
+									e.printStackTrace();
+								}
+
+								repeat = false;
+							}
+							else {
+								System.out.println("Vous devez choisir une option entre 1, 2 et 3.");
+								repeat = true;
+							}
+						} while(repeat);
+						repeat = false;
+						break;
+
+					case 2: // Ajouter un client
+						client = formClient(false);
+
+						try {
+							boolean isCreated = daos.getClientDAO().create(client);
+							if(isCreated) System.out.println("Ajout d'un client réussit !");
+							else System.out.println("Une erreur s'est produite lors de l'ajout du client.");
+						} catch (Exception e) {
+							System.out.println("ERREUR : " + e.getMessage());
+							e.printStackTrace();
 						}
-						else if(readClientChoice == 2) { // Lire en fonction de l'ID
+						repeat = false;
+						break;
+					case 3: // modifier un client
+						do {
 							do {
 								System.out.print("ID : ");
 								idClient = scanInt();
@@ -381,393 +446,406 @@ public class Main {
 								if(client != null) {
 									System.out.println(client.getId_client() + "\t" + client.getNom() + "\t" + client.getPrenom() + "\t" + client.getNo_rue()
 									+ "\t" + client.getVoie() + "\t" + client.getVille() + "\t" + client.getPays());
+									clientKeyValid = true;
 								}
 								else {
-									System.out.println("Il n'existe pas de client pour cette clé.");
+									System.out.println("Le client que vous voulez modifier n'existe pas. Merci de réessayer.");
+									clientKeyValid = false;
 								}
 
 							} catch (Exception e) {
 								System.out.println("ERREUR : " + e.getMessage());
 								e.printStackTrace();
 							}
-							repeat = false;
-						}
-						else if(readClientChoice == 3) { // Lire en fonction du nom et du prénom
-							System.out.print("Nom : ");
-							String nom = sc.nextLine();
+						} while(!clientKeyValid);
 
-							System.out.print("Prenom : ");
-							String prenom = sc.nextLine();
+						client = formClient(true);
+						client.setId_client(idClient);
+
+						try {
+							boolean isUpdated = daos.getClientDAO().update(client);
+							if(isUpdated) System.out.println("Modification du client réussi !");
+							else System.out.println("La modification du client a échoué.");
+						} catch (Exception e) {
+							System.out.println("ERREUR : " + e.getMessage());
+							e.printStackTrace();
+						}
+						repeat = false;
+						break;
+					case 4: // Supprimer un client
+						do {
+							do {
+								System.out.print("ID : ");
+								idClient = scanInt();
+								if(idClient < 1) {
+									System.out.println("La clé primaire doit être supérieur à 0.");
+								}
+							} while(idClient < 1);
+
 							try {
-								List<Client> clients = daos.getClientDAO().getByNomPrenom(nom, prenom);
-								if(!clients.isEmpty()) {
-									clients.forEach(clientI -> {
-										System.out.println(clientI.getId_client() + "\t" + clientI.getNom() + "\t" + clientI.getPrenom() + "\t" + clientI.getNo_rue()
-										+ "\t" + clientI.getVoie() + "\t" + clientI.getVille() + "\t" + clientI.getPays()); 
-									});
+								client = daos.getClientDAO().getById(idClient);
+								if(client != null) {
+									clientKeyValid = true;
 								}
 								else {
-									System.out.println("\"Client\" ne contient pas de données pour ce nom et de prénom.");
+									System.out.println("Le client que vous voulez supprimer n'existe pas. Merci de réessayer.");
+									clientKeyValid = false;
 								}
+
 							} catch (Exception e) {
 								System.out.println("ERREUR : " + e.getMessage());
 								e.printStackTrace();
 							}
-
-							repeat = false;
-						}
-						else {
-							System.out.println("Vous devez choisir une option entre 1, 2 et 3.");
-							repeat = true;
-						}
-					} while(repeat);
-					repeat = false;
-					break;
-
-				case 2: // Ajouter un client
-					client = formClient(false);
-
-					try {
-						boolean isCreated = daos.getClientDAO().create(client);
-						if(isCreated) System.out.println("Ajout d'un client réussit !");
-						else System.out.println("Une erreur s'est produite lors de l'ajout du client.");
-					} catch (Exception e) {
-						System.out.println("ERREUR : " + e.getMessage());
-						e.printStackTrace();
-					}
-					repeat = false;
-					break;
-				case 3: // modifier un client
-					do {
-						do {
-							System.out.print("ID : ");
-							idClient = scanInt();
-							if(idClient < 1) {
-								System.out.println("La clé primaire doit être supérieur à 0.");
-							}
-						} while(idClient < 1);
+						} while(!clientKeyValid);
 
 						try {
-							client = daos.getClientDAO().getById(idClient);
-							if(client != null) {
-								System.out.println(client.getId_client() + "\t" + client.getNom() + "\t" + client.getPrenom() + "\t" + client.getNo_rue()
-								+ "\t" + client.getVoie() + "\t" + client.getVille() + "\t" + client.getPays());
-								clientKeyValid = true;
-							}
-							else {
-								System.out.println("Le client que vous voulez modifier n'existe pas. Merci de réessayer.");
-								clientKeyValid = false;
-							}
-
+							boolean isDeleted = daos.getClientDAO().delete(client);
+							if(isDeleted) System.out.println("La suppresion du client a été effectué avec succès !");
+							else System.out.println("La suppresion du client a échoué.");
 						} catch (Exception e) {
 							System.out.println("ERREUR : " + e.getMessage());
 							e.printStackTrace();
 						}
-					} while(!clientKeyValid);
-					
-					client = formClient(true);
-					client.setId_client(idClient);
-
-					try {
-						boolean isUpdated = daos.getClientDAO().update(client);
-						if(isUpdated) System.out.println("Modification du client réussi !");
-						else System.out.println("La modification du client a échoué.");
-					} catch (Exception e) {
-						System.out.println("ERREUR : " + e.getMessage());
-						e.printStackTrace();
+						repeat = false;
+						break;
+					default:
+						System.out.println("Merci de choisir entre les choix 1, 2, 3 ou 4.");
+						repeat = true;
 					}
-					repeat = false;
-					break;
-				case 4: // Supprimer un client
-					do {
-						do {
-							System.out.print("ID : ");
-							idClient = scanInt();
-							if(idClient < 1) {
-								System.out.println("La clé primaire doit être supérieur à 0.");
-							}
-						} while(idClient < 1);
-
-						try {
-							client = daos.getClientDAO().getById(idClient);
-							if(client != null) {
-								clientKeyValid = true;
-							}
-							else {
-								System.out.println("Le client que vous voulez supprimer n'existe pas. Merci de réessayer.");
-								clientKeyValid = false;
-							}
-
-						} catch (Exception e) {
-							System.out.println("ERREUR : " + e.getMessage());
-							e.printStackTrace();
-						}
-					} while(!clientKeyValid);
-
-					try {
-						boolean isDeleted = daos.getClientDAO().delete(client);
-						if(isDeleted) System.out.println("La suppresion du client a été effectué avec succès !");
-						else System.out.println("La suppresion du client a échoué.");
-					} catch (Exception e) {
-						System.out.println("ERREUR : " + e.getMessage());
-						e.printStackTrace();
-					}
-					repeat = false;
-					break;
-				default:
-					System.out.println("Merci de choisir entre les choix 1, 2, 3 ou 4.");
-					repeat = true;
-				}
+				} while(repeat);
 				repeat = false;
 				break;
+				/* |----------------------------------| *
+				 * |----------- PERIODICITE ----------| *
+				 * |----------------------------------| */
 			case 3: // Periodicite
-				optionChoice = optionChoice();
-				Periodicite period = new Periodicite();
-				switch(optionChoice) {
-				case 1: // Lire periodicite
-					int readPeriodChoice;
-					do {
-						repeat = false;
-						readPeriodChoice = readPeriodChoice();
+				do {
+					optionChoice = optionChoice();
+					Periodicite period = new Periodicite();
+					int idPeriod;
+					boolean periodKeyValid = false;
+					switch(optionChoice) {
+					case 1: // Lire periodicite
+						int readPeriodChoice;
+						do {
+							repeat = false;
+							readPeriodChoice = readPeriodChoice();
 
-						if(readPeriodChoice == 1) { // Lire tout
+							if(readPeriodChoice == 1) { // Lire tout
+								try {
+									List<Periodicite> periods = daos.getPeriodiciteDAO().getAll();
+									if(!periods.isEmpty()) {
+										periods.forEach(periodI -> {
+											System.out.println(periodI.getId() + "\t" + periodI.getLibelle()); 
+										});
+									}
+									else {
+										System.out.println("\"Periodicite\" ne contient aucune données.");
+									}
+								} catch (Exception e) {
+									System.out.println("ERREUR : " + e.getMessage());
+									e.printStackTrace();
+								}
+								repeat = false;
+							}
+							else if(readPeriodChoice == 2) { // Lire periodicite par ID
+								do {
+									System.out.print("ID : ");
+									idPeriod = scanInt();
+									if(idPeriod < 1) {
+										System.out.println("La clé primaire doit être supérieur à 0.");
+									}
+								} while(idPeriod < 1);
+
+								try {
+									period = daos.getPeriodiciteDAO().getById(idPeriod);
+									if(period != null) {
+										System.out.println(period.getId() + "\t" + period.getLibelle());
+									}
+									else {
+										System.out.println("Il n'existe pas de période pour cette clé.");
+									}
+
+								} catch (Exception e) {
+									System.out.println("ERREUR : " + e.getMessage());
+									e.printStackTrace();
+								}
+								repeat = false;
+							}
+							else {
+								System.out.println("Vous devez choisir entre l'option 1 ou 2.");
+								repeat = true;
+							}
+						} while(repeat);
+						repeat = false;
+						break;
+
+					case 2: // Ajouter une periodicite
+						period = formPeriod(false);
+
+						try {
+							boolean isCreated = daos.getPeriodiciteDAO().create(period);
+
+							if(isCreated) System.out.println("Ajout réussi !");
+							else System.out.println("Une erreur s'est produite lors de l'ajout.");
+						} catch (Exception e) {
+							System.out.println("ERREUR : " + e.getMessage());
+							e.printStackTrace();
+						}
+						repeat = false;
+						break;
+					case 3: // modifier une periodicité
+						do {
+							do {
+								System.out.print("ID : ");
+								idPeriod = scanInt();
+								if(idPeriod < 1) {
+									System.out.println("La clé primaire doit être supérieur à 0.");
+								}
+							} while(idPeriod < 1);
+
 							try {
-								List<Periodicite> periods = daos.getPeriodiciteDAO().getAll();
-								if(!periods.isEmpty()) {
-									periods.forEach(periodI -> {
-										System.out.println(periodI.getId() + "\t" + periodI.getLibelle()); 
-									});
+								period = daos.getPeriodiciteDAO().getById(idPeriod);
+								if(period != null) {
+									System.out.println(period.getId() + "\t" + period.getLibelle());
+									periodKeyValid = true;
 								}
 								else {
-									System.out.println("\"Periodicite\" ne contient aucune données.");
+									System.out.println("La période que vous voulez modifier n'existe pas. Merci de réessayer.");
+									periodKeyValid = false;
 								}
-							} catch (NonExistentDataListException | SQLException e) {
-								System.out.println("Erreur de lecture : " + e.getMessage());
+
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
+								System.out.println("ERREUR : " + e.getMessage());
 								e.printStackTrace();
 							}
-							repeat = false;
+						} while(!periodKeyValid);
+
+						period = formPeriod(true);
+						period.setId(idPeriod);
+
+
+						try {
+							boolean isUpdated = daos.getPeriodiciteDAO().update(period);
+
+							if(isUpdated) System.out.println("Modification réussie !");
+							else System.out.println("Une erreur s'est produite lors de la modification.");
+						} catch (Exception e) {
+							System.out.println("ERREUR : " + e.getMessage());
+							e.printStackTrace();
 						}
-						else if(readPeriodChoice == 2) { // Lire par ID
-							System.out.print("ID : ");
-							while (!sc.hasNextInt()) {
-								String input = sc.next();
-								System.out.printf("\"%s\" n'est pas un nombre valide.\n", input);
+						repeat = false;
+						break;
+					case 4:
+						do {
+							do {
 								System.out.print("ID : ");
-							}
-							int id = sc.nextInt();
-							System.out.println();
-							sc.nextLine();
+								idPeriod = scanInt();
+								if(idPeriod < 1) {
+									System.out.println("La clé primaire doit être supérieur à 0.");
+								}
+							} while(idPeriod < 1);
 
 							try {
-								period = daos.getPeriodiciteDAO().getById(id);
-								System.out.println(period.getId() + "\t" + period.getLibelle());
+								period = daos.getPeriodiciteDAO().getById(idPeriod);
+								if(period != null) {
+									System.out.println(period.getId() + "\t" + period.getLibelle());
+									periodKeyValid = true;
+								}
+								else {
+									System.out.println("La période que vous voulez supprimer n'existe pas. Merci de réessayer.");
+									periodKeyValid = false;
+								}
+
 							} catch (Exception e) {
-								System.out.println("Erreur lecture par ID \"Periodicite\" : " + e.getMessage());
+								System.out.println("ERREUR : " + e.getMessage());
+								e.printStackTrace();
 							}
-							repeat = false;
+						} while(!periodKeyValid);
+
+						try {
+							boolean isDeleted = daos.getPeriodiciteDAO().delete(period);
+
+							if(isDeleted) System.out.println("Suppresion réussi !");
+							else System.out.println("Une errerur s'est produite lors de la suppresion.");
+						} catch (Exception e) {
+							System.out.println("ERREUR : " + e.getMessage());
+							e.printStackTrace();
 						}
-						else {
-							System.out.println("Vous devez choisir entre l'option 1 ou 2.");
-							repeat = true;
-						}
-					} while(repeat);
-					repeat = false;
-					break;
-
-				case 2: // Ajouter une periodicite
-					period = formPeriod(false);
-
-					try {
-						boolean isCreated = daos.getPeriodiciteDAO().create(period);
-
-						if(isCreated) System.out.println("Ajout réussi !");
-						else System.out.println("Une erreur s'est produite lors de l'ajout.");
-					} catch (SQLException e) {
-						System.out.println("Erreur d'ajout " + e.getMessage());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						repeat = false;
+						break;
+					default:
+						System.out.println("Merci de choisir entre les choix 1, 2, 3 ou 4.");
+						repeat = true;
 					}
-					repeat = false;
-					break;
-				case 3: // modifier une periodicité
-					period = formPeriod(true);
-					try {
-						boolean isUpdated = daos.getPeriodiciteDAO().update(period);
-
-						if(isUpdated) System.out.println("Modification réussie !");
-						else System.out.println("Une erreur s'est produite lors de la modification");
-					} catch(SQLException | NonExistentDataObjectException e) {
-						System.out.println("Erreur de modification : " + e.getMessage());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					repeat = false;
-					break;
-				case 4:
-					System.out.print("ID : ");
-
-					while (!sc.hasNextInt()) {
-						String input = sc.next();
-						System.out.printf("\"%s\" n'est pas un nombre valide.\n", input);
-						System.out.print("ID : ");
-					}
-
-					int id = sc.nextInt();
-					System.out.println();
-
-					sc.nextLine();
-
-					period = new Periodicite(id, null);
-
-					try {
-						boolean isDeleted = daos.getPeriodiciteDAO().delete(period);
-
-						if(isDeleted) System.out.println("Suppresion réussi !");
-						else System.out.println("Une errerur s'est produite lors de la suppresion.");
-					} catch(SQLException | NonExistentDataObjectException e) {
-						System.out.println("Erreur de suppresion " + e.getMessage());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					repeat = false;
-					break;
-				default:
-					System.out.println("Merci de choisir entre les choix 1, 2, 3 ou 4.");
-					repeat = true;
-				}
+				} while(repeat);
 				repeat = false;
 				break;
+				/* |----------------------------------| *
+				 * |-------------- REVUE -------------| *
+				 * |----------------------------------| */
 			case 4: // Revue
-				optionChoice = optionChoice();
-				Revue revue = new Revue();
-				switch(optionChoice) {
-				case 1: // Lire Revue
-					int readRevueChoice;
-					do {
-						repeat = false;
-						readRevueChoice = readRevueChoice();
+				do {
+					optionChoice = optionChoice();
+					Revue revue = new Revue();
+					int idRevue;
+					boolean revueKeyValid = false;
+					switch(optionChoice) {
+					case 1: // Lire Revue
+						int readRevueChoice;
+						do {
+							repeat = false;
+							readRevueChoice = readRevueChoice();
 
-						if(readRevueChoice == 1) { // Lire tout
+							if(readRevueChoice == 1) { // Lire tout
+								try {
+									List<Revue> revues = daos.getRevueDAO().getAll();
+									if(!revues.isEmpty()) {
+										revues.forEach(revueI -> {
+											System.out.println(revueI.getId_revue() + "\t" + revueI.getTitre() + "\t" + revueI.getDescription() + "\t" + revueI.getTarif_numero() + "\t" + revueI.getVisuel() + "\t" + revueI.getId_periodicite()); 
+										});
+									}
+									else {
+										System.out.println("\"Revue\" ne contient aucune données.");
+									}
+								} catch (Exception e) {
+									System.out.println("ERREUR : " + e.getMessage());
+									e.printStackTrace();
+								}
+								repeat = false;
+							}
+							else if(readRevueChoice == 2) { // Lire par ID
+								do {
+									System.out.print("ID : ");
+									idRevue = scanInt();
+									if(idRevue < 1) {
+										System.out.println("La clé primaire doit être supérieur à 0.");
+									}
+								} while(idRevue < 1);
+
+								try {
+									revue = daos.getRevueDAO().getById(idRevue);
+									if(revue != null) {
+										System.out.println(revue.getId_revue() + "\t" + revue.getTitre() + "\t" + revue.getDescription() + "\t" + revue.getTarif_numero() + "\t" + revue.getVisuel() + "\t" + revue.getId_periodicite());
+									}
+									else {
+										System.out.println("Il n'existe pas de revue pour cette clé.");
+									}
+								} catch (Exception e) {
+									System.out.println("ERREUR :" + e.getMessage());
+									e.printStackTrace();
+								}
+								repeat = false;
+							}
+							else {
+								System.out.println("Vous devez choisir entre l'option 1 ou 2.");
+								repeat = true;
+							}
+						} while(repeat);
+						repeat = false;
+						break;
+
+					case 2: // ajouter une revue
+
+						revue = formRevue(false);
+
+						try {
+							boolean isCreated = daos.getRevueDAO().create(revue);
+
+							if(isCreated) System.out.println("Ajout d'une revue réussi !");
+							else System.out.println("Une erreur est survenue lors de l'ajout d'une revue.");
+						} catch (Exception e) {
+							System.out.println("ERREUR : " + e.getMessage());
+							e.printStackTrace();
+						}
+
+						repeat = false;
+						break;
+					case 3: // modifier revue
+						do {
+							do {
+								System.out.print("ID : ");
+								idRevue = scanInt();
+								if(idRevue < 1) {
+									System.out.println("La clé primaire doit être supérieur à 0.");
+								}
+							} while(idRevue < 1);
+
 							try {
-								List<Revue> revues = daos.getRevueDAO().getAll();
-								if(!revues.isEmpty()) {
-									revues.forEach(revueI -> {
-										System.out.println(revueI.getId_revue() + "\t" + revueI.getTitre() + "\t" + revueI.getDescription() + "\t" + revueI.getTarif_numero() + "\t" + revueI.getVisuel() + "\t" + revueI.getId_periodicite()); 
-									});
+								revue = daos.getRevueDAO().getById(idRevue);
+								if(revue != null) {
+									System.out.println(revue.getId_revue() + "\t" + revue.getTitre() + "\t" + revue.getDescription() + "\t" + revue.getTarif_numero() + "\t" + revue.getVisuel() + "\t" + revue.getId_periodicite());
+									revueKeyValid = true;
 								}
 								else {
-									System.out.println("\"Revue\" ne contient aucune données.");
+									System.out.println("La revue que vous voulez modifier n'existe pas. Merci de réessayer.");
+									revueKeyValid = false;
 								}
-							} catch (NonExistentDataListException | SQLException e) {
-								System.out.println("Erreur de lecture : " + e.getMessage());
+
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
+								System.out.println("ERREUR : " + e.getMessage());
 								e.printStackTrace();
 							}
-							repeat = false;
+						} while(!revueKeyValid);
+
+						revue = formRevue(true);
+						revue.setId_revue(idRevue);
+
+						try {
+							boolean isUpdated = daos.getRevueDAO().update(revue);
+
+							if(isUpdated) System.out.println("Modification d'une revue réussie !");
+							else System.out.println("Une erreur est survenue lors de la modification de la revue.");
+						} catch (Exception e) {
+							System.out.println("ERREUR : " + e.getMessage());
+							e.printStackTrace();
 						}
-						else if(readRevueChoice == 2) { // Lire par ID
-							System.out.print("ID : ");
-							while (!sc.hasNextInt()) {
-								String input = sc.next();
-								System.out.printf("\"%s\" n'est pas un nombre valide.\n", input);
+						repeat = false;
+						break;
+					case 4: // Supprimer revue
+						do {
+							do {
 								System.out.print("ID : ");
-							}
-							int id = sc.nextInt();
-							System.out.println();
-							sc.nextLine();
+								idRevue = scanInt();
+								if(idRevue < 1) {
+									System.out.println("La clé primaire doit être supérieur à 0.");
+								}
+							} while(idRevue < 1);
 
 							try {
-								revue = daos.getRevueDAO().getById(id);
-								System.out.println(revue.getId_revue() + "\t" + revue.getTitre() + "\t" + revue.getDescription() + "\t" + revue.getTarif_numero() + "\t" + revue.getVisuel() + "\t" + revue.getId_periodicite());
-							} catch (NonExistentDataListException | NonExistentDataObjectException | SQLException e) {
-								System.out.println("Erreur lecture par ID : " + e.getMessage());
+								revue = daos.getRevueDAO().getById(idRevue);
+								if(revue != null) {
+									System.out.println(revue.getId_revue() + "\t" + revue.getTitre() + "\t" + revue.getDescription() + "\t" + revue.getTarif_numero() + "\t" + revue.getVisuel() + "\t" + revue.getId_periodicite());
+									revueKeyValid = true;
+								}
+								else {
+									System.out.println("La revue que vous voulez supprimer n'existe pas. Merci de réessayer.");
+									revueKeyValid = false;
+								}
+
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
+								System.out.println("ERREUR : " + e.getMessage());
 								e.printStackTrace();
 							}
-							repeat = false;
+						} while(!revueKeyValid);
+
+						try {
+							boolean isDeleted = daos.getRevueDAO().delete(revue);
+
+							if(isDeleted) System.out.println("Suppresion d'une revue réussi !");
+							else System.out.println("Une erreur s'est produite lors de la suppresion d'une revue.");
+						} catch (Exception e) {
+							System.out.println("ERREUR : " + e.getMessage());
+							e.printStackTrace();
 						}
-						else {
-							System.out.println("Vous devez choisir entre l'option 1 ou 2.");
-							repeat = true;
-						}
-					} while(repeat);
-					repeat = false;
-					break;
 
-				case 2: // ajouter une revue
-					revue = formRevue(false);
-
-					try {
-						boolean isCreated = daos.getRevueDAO().create(revue);
-
-						if(isCreated) System.out.println("Ajout d'une revue réussi !");
-						else System.out.println("Une erreur est survenue lors de l'ajout d'une revue.");
-					} catch(SQLException e) {
-						System.out.println("Erreur d'ajout : " + e.getMessage());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						repeat = false;
+						break;
+					default:
+						System.out.println("Merci de choisir entre les choix 1, 2, 3 ou 4.");
+						repeat = true;
 					}
-
-					repeat = false;
-					break;
-				case 3: // modifier revue
-					revue = formRevue(true);
-
-					try {
-						boolean isUpdated = daos.getRevueDAO().update(revue);
-
-						if(isUpdated) System.out.println("Modification d'une revue réussie !");
-						else System.out.println("Une erreur est survenue lors de la modification de la revue.");
-					} catch(NonExistentDataObjectException | SQLException e) {
-						System.out.println("Erreur de modification : " + e.getMessage());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					repeat = false;
-					break;
-				case 4: // Supprimer period
-					System.out.print("ID : ");
-
-					while (!sc.hasNextInt()) {
-						String input = sc.next();
-						System.out.printf("\"%s\" n'est pas un nombre valide.\n", input);
-						System.out.print("ID : ");
-					}
-
-					int id = sc.nextInt();
-					System.out.println();
-
-					sc.nextLine();
-
-					revue = new Revue(id, null, null, 0, null, 0);
-
-					try {
-						boolean isDeleted = daos.getRevueDAO().delete(revue);
-
-						if(isDeleted) System.out.println("Suppresion d'une revue réussi !");
-						else System.out.println("Une erreur s'est produite lors de la suppresion d'une revue.");
-					} catch(SQLException | NonExistentDataObjectException e) {
-						System.out.println("Erreur de suppresion " + e.getMessage());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-					repeat = false;
-					break;
-				default:
-					System.out.println("Merci de choisir entre les choix 1, 2, 3 ou 4.");
-					repeat = true;
-				}
+				} while(repeat);
 				repeat = false;
 				break;
 
@@ -1054,53 +1132,29 @@ public class Main {
 
 	public static Periodicite formPeriod(boolean update) {
 		Scanner sc = new Scanner(System.in);
-		int idPeriod = 0;
 
 		if(update) {
 			System.out.println("Modification :");
 			System.out.println("--------------");
-			System.out.println("Veuillez indiquer la clé primaire de la périodicité à modifier.");
+			System.out.println("Veuillez indiquer les données de la périodicité à modifier.");
 			System.out.println();
-
-			System.out.print("ID : ");
-
-			while (!sc.hasNextInt()) {
-				String input = sc.next();
-				System.out.printf("\"%s\" n'est pas un nombre valide.\n", input);
-				System.out.print("ID : ");
-			}
-			idPeriod = sc.nextInt();
-			System.out.println();
-			sc.nextLine();
 		}
 
 		System.out.print("Libelle : ");
 		String libelle = sc.nextLine();
 		System.out.println();
 
-		return new Periodicite(idPeriod, libelle);
+		return new Periodicite(0, libelle);
 	}
 
 	public static Revue formRevue(boolean update) {
 		Scanner sc = new Scanner(System.in);
-		int idRevue = 0;
 
 		if(update) {
 			System.out.println("Modification :");
 			System.out.println("--------------");
-			System.out.println("Veuillez indiquer la clé primaire de la revue à modifier.");
+			System.out.println("Veuillez indiquer les données de la revue à modifier.");
 			System.out.println();
-
-			System.out.print("ID : ");
-
-			while (!sc.hasNextInt()) {
-				String input = sc.next();
-				System.out.printf("\"%s\" n'est pas un nombre valide.\n", input);
-				System.out.print("ID : ");
-			}
-			idRevue = sc.nextInt();
-			System.out.println();
-			sc.nextLine();
 		}
 
 		System.out.print("Titre : ");
@@ -1137,6 +1191,6 @@ public class Main {
 		System.out.println();
 		sc.nextLine();
 
-		return new Revue(idRevue, titre, description, tarif, visuel, idPeriod);
+		return new Revue(0, titre, description, tarif, visuel, idPeriod);
 	}
 }

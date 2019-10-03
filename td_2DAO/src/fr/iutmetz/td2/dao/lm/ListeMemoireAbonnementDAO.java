@@ -6,12 +6,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Objects;
-import java.util.Optional;
 
 import fr.iutmetz.td2.dao.AbonnementDAO;
 import fr.iutmetz.td2.exceptions.ExistingCompositeKeyException;
-import fr.iutmetz.td2.exceptions.NonExistentDataListException;
 import fr.iutmetz.td2.exceptions.NonExistentDataObjectException;
 import fr.iutmetz.td2.pojo.Abonnement;
 
@@ -70,15 +67,17 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 	}
 
 	@Override
-	public boolean update(Abonnement obj, String[] params) throws NonExistentDataObjectException {
-		int idx = this.data.indexOf(obj);
+	public boolean update(Abonnement obj) throws NonExistentDataObjectException {
+		ListIterator<Abonnement> dataListIterator = data.listIterator();
 		
-		if(idx == -1) {
-			throw new NonExistentDataObjectException("Tentative de modification d'un object inexistant.");
+		while(dataListIterator.hasNext()) {
+			Abonnement abo = dataListIterator.next();
+			if(obj.getId_client() == abo.getId_client() && obj.getId_client() == abo.getId_revue()) {
+				dataListIterator.set(obj);
+				return true;
+			}
 		}
-		
-		this.data.set(idx, obj);
-		return true;
+		throw new NonExistentDataObjectException("Clé primaire inexistante.");
 	}
 	
 	@Override

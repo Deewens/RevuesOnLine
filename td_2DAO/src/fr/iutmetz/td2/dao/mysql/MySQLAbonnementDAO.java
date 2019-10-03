@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.iutmetz.td2.dao.AbonnementDAO;
-import fr.iutmetz.td2.exceptions.NonExistentDataListException;
-import fr.iutmetz.td2.exceptions.NonExistentDataObjectException;
+
 import fr.iutmetz.td2.pojo.Abonnement;
 
 import java.time.*;
@@ -76,7 +75,7 @@ public class MySQLAbonnementDAO implements AbonnementDAO {
 	}
 
 	@Override
-	public boolean update(Abonnement obj, String[] params) throws SQLException {
+	public boolean update(Abonnement obj) throws SQLException {
 		PreparedStatement query = this.connect().prepareStatement("UPDATE abonnement SET date_debut = ?, date_fin = ? WHERE id_client = ? AND id_revue = ?");
 		query.setDate(1, Date.valueOf(obj.getDate_debut()));
 		query.setDate(2, Date.valueOf(obj.getDate_fin()));

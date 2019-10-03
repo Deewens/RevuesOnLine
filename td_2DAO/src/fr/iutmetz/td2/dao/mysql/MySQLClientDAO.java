@@ -1,7 +1,6 @@
 package fr.iutmetz.td2.dao.mysql;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.iutmetz.td2.dao.ClientDAO;
-import fr.iutmetz.td2.exceptions.NonExistentDataListException;
-import fr.iutmetz.td2.exceptions.NonExistentDataObjectException;
 import fr.iutmetz.td2.pojo.Client;
 
 public class MySQLClientDAO implements ClientDAO {
@@ -75,7 +72,7 @@ public class MySQLClientDAO implements ClientDAO {
 	}
 
 	@Override
-	public boolean update(Client obj, String[] params) throws SQLException {
+	public boolean update(Client obj) throws SQLException {
 		PreparedStatement query = this.connect().prepareStatement("UPDATE  client SET nom = ?, prenom = ?, no_rue = ?, voie = ?, code_postal = ?, ville = ?, pays = ? WHERE id_client = ?");
 		query.setString(1, obj.getNom());
 		query.setString(2, obj.getPrenom());

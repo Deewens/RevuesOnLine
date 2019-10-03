@@ -6,13 +6,11 @@ import java.util.List;
 import java.util.ListIterator;
 
 import fr.iutmetz.td2.dao.RevueDAO;
-import fr.iutmetz.td2.exceptions.NonExistentDataListException;
 import fr.iutmetz.td2.exceptions.NonExistentDataObjectException;
-import fr.iutmetz.td2.pojo.Abonnement;
-import fr.iutmetz.td2.pojo.Periodicite;
 import fr.iutmetz.td2.pojo.Revue;
 
 public class ListeMemoireRevueDAO implements RevueDAO {
+	private static int id = 2;
 	private static ListeMemoireRevueDAO instance;
 	private List<Revue> data;
 	
@@ -32,9 +30,7 @@ public class ListeMemoireRevueDAO implements RevueDAO {
 	
 	@Override
 	public boolean create(Revue obj) {
-		for(int i = 0; i<data.size()+1; i++) {
-			obj.setId_revue(obj.getId_revue() + 1);
-		}
+		obj.setId_revue(++id);
 		
 		boolean create = this.data.add(obj);
 		return create;
@@ -56,15 +52,17 @@ public class ListeMemoireRevueDAO implements RevueDAO {
 	}
 
 	@Override
-	public boolean update(Revue obj, String[] params) throws NonExistentDataObjectException {
-		int idx = this.data.indexOf(obj);
+	public boolean update(Revue obj) throws NonExistentDataObjectException {
+		ListIterator<Revue> dataListIterator = data.listIterator();
 		
-		if(idx == -1) {
-			throw new NonExistentDataObjectException("Tentative de modification d'un object inexistant.");
+		while(dataListIterator.hasNext()) {
+			Revue revue = dataListIterator.next();
+			if(obj.getId_revue() == revue.getId_revue()) {
+				dataListIterator.set(obj);
+				return true;
+			}
 		}
-		
-		this.data.set(idx, obj);
-		return true;
+		throw new NonExistentDataObjectException("Clé primaire inexistante.");
 	}
 
 	@Override

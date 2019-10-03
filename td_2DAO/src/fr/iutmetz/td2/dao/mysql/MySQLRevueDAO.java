@@ -9,10 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.iutmetz.td2.dao.RevueDAO;
-import fr.iutmetz.td2.dao.lm.ListeMemoireRevueDAO;
-import fr.iutmetz.td2.exceptions.NonExistentDataListException;
-import fr.iutmetz.td2.exceptions.NonExistentDataObjectException;
-import fr.iutmetz.td2.pojo.Periodicite;
 import fr.iutmetz.td2.pojo.Revue;
 
 public class MySQLRevueDAO implements RevueDAO {
@@ -71,7 +67,7 @@ public class MySQLRevueDAO implements RevueDAO {
 	}
 
 	@Override
-	public boolean update(Revue obj, String[] params) throws SQLException {
+	public boolean update(Revue obj) throws SQLException {
 		PreparedStatement query = this.connect().prepareStatement("UPDATE Revue SET titre = ?, description = ?, tarif_numero = ?, visuel = ?, id_periodicite = ? WHERE id_revue = ?");
 		query.setString(1, obj.getTitre());
 		query.setString(2, obj.getDescription());
@@ -113,7 +109,7 @@ public class MySQLRevueDAO implements RevueDAO {
 			throw new IllegalArgumentException("id must be > 0");
 		}
 		
-		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM periodicite WHERE id_periodicite = ?");
+		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM revue WHERE id_revue = ?");
 		query.setInt(1, id);
 		
 		ResultSet res = query.executeQuery();

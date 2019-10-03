@@ -6,13 +6,11 @@ import java.util.List;
 import java.util.ListIterator;
 
 import fr.iutmetz.td2.dao.PeriodiciteDAO;
-import fr.iutmetz.td2.exceptions.NonExistentDataListException;
 import fr.iutmetz.td2.exceptions.NonExistentDataObjectException;
-import fr.iutmetz.td2.pojo.Abonnement;
-import fr.iutmetz.td2.pojo.Client;
 import fr.iutmetz.td2.pojo.Periodicite;
 
 public class ListeMemoirePeriodiciteDAO implements PeriodiciteDAO {
+	private static int id = 2;
 	private static ListeMemoirePeriodiciteDAO instance;
 	
 	private List<Periodicite> data;
@@ -20,8 +18,8 @@ public class ListeMemoirePeriodiciteDAO implements PeriodiciteDAO {
 	public ListeMemoirePeriodiciteDAO() {
 		this.data = new ArrayList<Periodicite>();
 		
-		this.data.add(new Periodicite(1, "Adrien"));
-		this.data.add(new Periodicite(2, "Lol"));
+		this.data.add(new Periodicite(1, "Journalier"));
+		this.data.add(new Periodicite(2, "Mensuel"));
 	}
 
 	public static ListeMemoirePeriodiciteDAO getInstance() {
@@ -33,9 +31,7 @@ public class ListeMemoirePeriodiciteDAO implements PeriodiciteDAO {
 
 	@Override
 	public boolean create(Periodicite obj) {
-		for(int i = 0; i<data.size()+1; i++) {
-			obj.setId(obj.getId() + 1);
-		}
+		obj.setId(++id);
 		
 		boolean create = this.data.add(obj);
 		return create;
@@ -57,15 +53,17 @@ public class ListeMemoirePeriodiciteDAO implements PeriodiciteDAO {
 	}
 
 	@Override
-	public boolean update(Periodicite obj, String[] params) throws NonExistentDataObjectException {
-		int idx = this.data.indexOf(obj);
+	public boolean update(Periodicite obj) throws NonExistentDataObjectException {
+		ListIterator<Periodicite> dataListIterator = data.listIterator();
 		
-		if(idx == -1) {
-			throw new NonExistentDataObjectException("Tentative de modification d'un object inexistant.");
+		while(dataListIterator.hasNext()) {
+			Periodicite period = dataListIterator.next();
+			if(obj.getId() == period.getId()) {
+				dataListIterator.set(obj);
+				return true;
+			}
 		}
-		
-		this.data.set(idx, obj);
-		return true;
+		throw new NonExistentDataObjectException("Clé primaire inexistante.");
 	}
 
 	@Override

@@ -6,20 +6,19 @@ import java.util.List;
 import java.util.ListIterator;
 
 import fr.iutmetz.td2.dao.ClientDAO;
-import fr.iutmetz.td2.exceptions.NonExistentDataListException;
 import fr.iutmetz.td2.exceptions.NonExistentDataObjectException;
-import fr.iutmetz.td2.pojo.Abonnement;
 import fr.iutmetz.td2.pojo.Client;
 
 public class ListeMemoireClientDAO implements ClientDAO {
+	private static int id = 2;
 	private static ListeMemoireClientDAO instance;
 	private List<Client> data;
 	
 	public ListeMemoireClientDAO() {
 		this.data = new ArrayList<Client>();
 		
-		this.data.add(new Client(1, "Adrien", "Dudon", "37", "rue des cyprets", "57565", "Afrique du sud", "Afrique"));
-		this.data.add(new Client(2, "Adrien", "Dudon", "37", "rue des cyprets", "57565", "Afrique du sud", "Afrique"));
+		this.data.add(new Client(1, "Dudon", "Adrien", "37", "rue des cyprets", "57565", "Congo", "Afrique"));
+		this.data.add(new Client(2, "Adrien", "Dudon", "37", "rue des cyprets", "57565", "Congo", "Afrique"));
 	}
 	
 	public static ListeMemoireClientDAO getInstance() {
@@ -30,10 +29,8 @@ public class ListeMemoireClientDAO implements ClientDAO {
 	}
 	
 	@Override
-	public boolean create(Client obj) {
-		for(int i = 0; i<data.size()+1; i++) {
-			obj.setId_client(obj.getId_client() + 1);
-		}
+	public boolean create(Client obj) {		
+		obj.setId_client(++id);
 		
 		boolean create = this.data.add(obj);
 		return create;
@@ -55,17 +52,17 @@ public class ListeMemoireClientDAO implements ClientDAO {
 	}
 
 	@Override
-	public boolean update(Client obj, String[] params) throws NonExistentDataObjectException {
-		int idx = this.data.indexOf(obj);
+	public boolean update(Client obj) throws NonExistentDataObjectException {
+		ListIterator<Client> dataListIterator = data.listIterator();
 		
-		if(idx == -1) {
-			throw new NonExistentDataObjectException("Tentative de modification d'un object inexistant.");
+		while(dataListIterator.hasNext()) {
+			Client client = dataListIterator.next();
+			if(obj.getId_client() == client.getId_client()) {
+				dataListIterator.set(obj);
+				return true;
+			}
 		}
-		else {
-			this.data.set(idx, obj);
-		}
-		
-		return true;
+		throw new NonExistentDataObjectException("Clé primaire inexistante.");
 	}
 
 	@Override

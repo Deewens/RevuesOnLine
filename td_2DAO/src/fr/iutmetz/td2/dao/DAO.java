@@ -8,7 +8,7 @@ public interface DAO<T> {
 		
 	public boolean delete(T obj) throws Exception;
 		
-	public boolean update(T obj, String[] params) throws Exception;
+	public boolean update(T obj) throws Exception;
 	
 	public ArrayList<T> getAll() throws Exception;
 }

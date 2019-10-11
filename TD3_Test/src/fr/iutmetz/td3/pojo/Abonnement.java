@@ -18,7 +18,7 @@ public class Abonnement {
 		this.id_revue = 0;
 		this.date_debut = dateDebut;
 		this.date_fin = dateFin;
-	} // Constructeur par dï¿½faut
+	} // Constructeur par défaut
 	
 	public Abonnement(int id_client, int id_revue, LocalDate date_debut, LocalDate date_fin) {
 		this.id_client = id_client;
@@ -57,5 +57,51 @@ public class Abonnement {
 
 	public void setDate_fin(LocalDate date_fin) {
 		this.date_fin = date_fin;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((date_debut == null) ? 0 : date_debut.hashCode());
+		result = prime * result + ((date_fin == null) ? 0 : date_fin.hashCode());
+		result = prime * result + id_client;
+		result = prime * result + id_revue;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Abonnement other = (Abonnement) obj;
+		if (date_debut == null) {
+			if (other.date_debut != null) {
+				return false;
+			}
+		} else if (!date_debut.equals(other.date_debut)) {
+			return false;
+		}
+		if (date_fin == null) {
+			if (other.date_fin != null) {
+				return false;
+			}
+		} else if (!date_fin.equals(other.date_fin)) {
+			return false;
+		}
+		if (id_client != other.id_client) {
+			return false;
+		}
+		if (id_revue != other.id_revue) {
+			return false;
+		}
+		return true;
 	}
 }

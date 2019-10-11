@@ -43,7 +43,7 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 		while (dataIterator.hasNext()) {
 			Abonnement datum = dataIterator.next();
 			if(obj.getId_client() == datum.getId_client() && obj.getId_revue() == datum.getId_revue()) {
-				throw new ExistingCompositeKeyException("La clï¿½ primaire existe dï¿½jï¿½.");
+				throw new ExistingCompositeKeyException("La clé primaire existe déjà.");
 				
 			}
 		}
@@ -73,12 +73,13 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 		
 		while(dataListIterator.hasNext()) {
 			Abonnement abo = dataListIterator.next();
-			if(obj.getId_client() == abo.getId_client() && obj.getId_client() == abo.getId_revue()) {
+			
+			if(obj.getId_client() == abo.getId_client() && obj.getId_revue() == abo.getId_revue()) {
 				dataListIterator.set(obj);
 				return true;
 			}
 		}
-		throw new NonExistentDataObjectException("Clï¿½ primaire inexistante.");
+		throw new NonExistentDataObjectException("Clé primaire inexistante.");
 	}
 	
 	@Override

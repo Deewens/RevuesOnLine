@@ -66,4 +66,64 @@ public class Revue {
 	public void setId_periodicite(int id_periodicite) {
 		this.id_periodicite = id_periodicite;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + id_periodicite;
+		result = prime * result + id_revue;
+		long temp;
+		temp = Double.doubleToLongBits(tarif_numero);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((titre == null) ? 0 : titre.hashCode());
+		result = prime * result + ((visuel == null) ? 0 : visuel.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Revue other = (Revue) obj;
+		if (description == null) {
+			if (other.description != null) {
+				return false;
+			}
+		} else if (!description.equals(other.description)) {
+			return false;
+		}
+		if (id_periodicite != other.id_periodicite) {
+			return false;
+		}
+		if (id_revue != other.id_revue) {
+			return false;
+		}
+		if (Double.doubleToLongBits(tarif_numero) != Double.doubleToLongBits(other.tarif_numero)) {
+			return false;
+		}
+		if (titre == null) {
+			if (other.titre != null) {
+				return false;
+			}
+		} else if (!titre.equals(other.titre)) {
+			return false;
+		}
+		if (visuel == null) {
+			if (other.visuel != null) {
+				return false;
+			}
+		} else if (!visuel.equals(other.visuel)) {
+			return false;
+		}
+		return true;
+	}
 }

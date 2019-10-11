@@ -174,7 +174,7 @@ public class Main {
 								System.out.print("ID Client : ");
 								idClientAbo = scanInt();
 								if(idClientAbo < 1) {
-									System.out.println("ID Client doit ï¿½tre supï¿½rieur ï¿½ 0.");
+									System.out.println("ID Client doit être supérieur à 0.");
 								}
 							} while(idClientAbo < 1);
 
@@ -182,14 +182,14 @@ public class Main {
 								System.out.print("ID Revue : ");
 								idRevueAbo = scanInt();
 								if(idRevueAbo < 1) {
-									System.out.println("ID Revue doit ï¿½tre supï¿½rieur ï¿½ 0.");
+									System.out.println("ID Revue doit êtretre supérieur à 0.");
 								}
 							} while(idRevueAbo < 1);
 
 							try {
 								abo = daos.getAbonnementDAO().getByIds(idClientAbo, idRevueAbo);
 								if(abo != null) {
-									System.out.println("Un abonnement existe dï¿½jï¿½ pour cette clï¿½ primaire. Merci de rï¿½essayer.");
+									System.out.println("Un abonnement existe déjà pour cette clé primaire. Merci de réessayer.");
 
 									aboKeyValid = false;
 								}
@@ -231,7 +231,7 @@ public class Main {
 								System.out.print("ID Client : ");
 								idClientAbo = scanInt();
 								if(idClientAbo < 1) {
-									System.out.println("ID Client doit ï¿½tre supï¿½rieur ï¿½ 0.");
+									System.out.println("ID Client doit être supérieur à 0.");
 								}
 							} while(idClientAbo < 1);
 
@@ -239,7 +239,7 @@ public class Main {
 								System.out.print("ID Revue : ");
 								idRevueAbo = scanInt();
 								if(idRevueAbo < 1) {
-									System.out.println("ID Revue doit ï¿½tre supï¿½rieur ï¿½ 0.");
+									System.out.println("ID Revue doit être supérieur à 0.");
 								}
 							} while(idRevueAbo < 1);
 
@@ -250,7 +250,7 @@ public class Main {
 									System.out.println(abo.getId_client() + "\t" + abo.getId_revue() + "\t" + abo.getDate_debut() + "\t" + abo.getDate_fin());
 								}
 								else {
-									System.out.println("L'abonnement que vous voulez modifier n'existe pas. Merci de rï¿½essayer.");
+									System.out.println("L'abonnement que vous voulez modifier n'existe pas. Merci de réessayer.");
 									aboKeyValid = false;
 								}
 
@@ -266,7 +266,7 @@ public class Main {
 
 						try {
 							boolean isUpdated = daos.getAbonnementDAO().update(abo);
-							if(isUpdated) System.out.println("Modification de l'abonnement rï¿½ussi !");
+							if(isUpdated) System.out.println("Modification de l'abonnement réussi !");
 							else System.out.println("Une erreur est survenue lors de la modification de l'abonnement.");
 						} catch (Exception e) {
 							System.out.println("ERREUR : " + e.getMessage());

@@ -62,7 +62,7 @@ public class ListeMemoireClientDAO implements ClientDAO {
 				return true;
 			}
 		}
-		throw new NonExistentDataObjectException("Clï¿½ primaire inexistante.");
+		throw new NonExistentDataObjectException("Clé primaire inexistante.");
 	}
 
 	@Override

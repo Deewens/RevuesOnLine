@@ -2,12 +2,12 @@ package fr.iutmetz.td3.factory;
 
 import fr.iutmetz.td3.dao.AbonnementDAO;
 import fr.iutmetz.td3.dao.ClientDAO;
-import fr.iutmetz.td3.dao.PeriodiciteDAO;
 import fr.iutmetz.td3.dao.RevueDAO;
 import fr.iutmetz.td3.dao.lm.ListeMemoireAbonnementDAO;
 import fr.iutmetz.td3.dao.lm.ListeMemoireClientDAO;
 import fr.iutmetz.td3.dao.lm.ListeMemoirePeriodiciteDAO;
 import fr.iutmetz.td3.dao.lm.ListeMemoireRevueDAO;
+import fr.iutmetz.td3.dao.PeriodiciteDAO;
 
 public class ListeMemoireDAOFactory extends DAOFactory {
 	

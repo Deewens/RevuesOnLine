@@ -26,7 +26,7 @@ public class Main {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 		System.out.println("Bienvenue. Ici vous pouvez gï¿½rer vos donnï¿½es stockï¿½s dans diffï¿½rents systï¿½me.\n"
-				+ " Ce mini-programme en ligne de commandes va vous permettre d'ajouter, supprimer, modifier et voir les donnï¿½es d'une base de donnï¿½es et d'une Liste en mï¿½moire.");
+				+ " Ce mini-programme en ligne de commandes va vous permettre d'ajouter, supprimer, modifier et voir les donnï¿½es d'une base de donnï¿½es et d'une Liste en mémoire.");
 		System.out.println("Instructions d'utilisation :");
 		System.out.println("Pour naviguer dans le programme, vous devez indiquer le numï¿½ro du menu auquel vous souhaitez accï¿½der et appuyer sur entrer.");
 		System.out.println();
@@ -79,7 +79,7 @@ public class Main {
 									System.out.print("ID Client : ");
 									idClientAbo = scanInt();
 									if(idClientAbo < 1) {
-										System.out.println("ID Client doit ï¿½tre supï¿½rieur ï¿½ 0.");
+										System.out.println("ID Client doit être supérieur ï¿½ 0.");
 									}
 								} while(idClientAbo < 1);
 
@@ -87,7 +87,7 @@ public class Main {
 									System.out.print("ID Revue : ");
 									idRevueAbo = scanInt();
 									if(idRevueAbo < 1) {
-										System.out.println("ID Revue doit ï¿½tre supï¿½rieur ï¿½ 0.");
+										System.out.println("ID Revue doit être supérieur à 0.");
 									}
 								} while(idRevueAbo < 1);
 

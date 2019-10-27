@@ -6,17 +6,14 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cpoa.projet.controllers.MainPageController">
   <children>
-      <TitledPane animated="false" prefHeight="0.0" prefWidth="640.0" text="Accueil" />
     <MenuBar VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="Persistance">
@@ -40,32 +37,28 @@
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-      <children>
-            <Label alignment="CENTER" layoutX="194.0" text="RevuesOnLine" textAlignment="CENTER" textFill="#7c7c7c">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Label>
-            <Label layoutX="160.0" layoutY="58.0" text="Bienvenue sur notre logiciel de gestion de base de données." />
-            <GridPane alignment="CENTER" layoutX="194.0" layoutY="76.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="Abonnement" GridPane.halignment="CENTER" />
-                  <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="Clients" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="Periodicités" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                  <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" text="Revues" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-               </children>
-            </GridPane>
-      </children>
-    </AnchorPane>
+      <Label alignment="CENTER" text="RevuesOnLine" textAlignment="CENTER" textFill="#7c7c7c">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+      <Label text="Bienvenue sur notre logiciel de gestion de base de données." />
+      <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#clButton" prefHeight="40.0" prefWidth="150.0" text="Clients" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#periodButton" prefHeight="40.0" prefWidth="150.0" text="Periodicités" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#revButton" prefHeight="40.0" prefWidth="150.0" text="Revues" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#aboButton" prefHeight="40.0" prefWidth="150.0" text="Abonnements" GridPane.halignment="CENTER" />
+         </children>
+      </GridPane>
   </children>
 </VBox>

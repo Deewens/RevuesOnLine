@@ -86,6 +86,12 @@ public class Client {
 	public void setPays(String pays) {
 		this.pays = pays;
 	}
+	
+	@Override
+	public String toString() {
+		return "Client [id_client=" + id_client + ", nom=" + nom + ", prenom=" + prenom + ", no_rue=" + no_rue
+				+ ", voie=" + voie + ", code_postal=" + code_postal + ", ville=" + ville + ", pays=" + pays + "]";
+	}
 
 	@Override
 	public int hashCode() {

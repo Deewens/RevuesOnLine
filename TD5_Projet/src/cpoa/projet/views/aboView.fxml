@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="657.0" prefWidth="726.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane prefHeight="38.0" prefWidth="726.0">
+         <children>
+            <Button alignment="CENTER" layoutX="657.0" layoutY="7.0" mnemonicParsing="false" text="Ajouter" />
+            <Label alignment="CENTER" layoutX="306.0" layoutY="7.0" prefHeight="24.0" prefWidth="114.0" style="-fx-font-weight: bold; -fx-border-color: #7c7c7c; -fx-border-width: 1px;" text="ABONNEMENT" textAlignment="CENTER" textFill="#7c7c7c">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <padding>
+                  <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+               </padding>
+            </Label>
+         </children>
+      </Pane>
+      <ScrollPane pannable="true" prefHeight="249.0" prefWidth="726.0" VBox.vgrow="ALWAYS">
+         <content>
+            <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="286.0" prefWidth="710.0">
+              <columns>
+                <TableColumn fx:id="idClientTab" prefWidth="157.6000030040741" text="ID Client" />
+                <TableColumn prefWidth="199.2000274658203" text="ID Revue" />
+                  <TableColumn prefWidth="100.0" text="Date Début" />
+                  <TableColumn prefWidth="181.0" text="Date Fin" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </content>
+      </ScrollPane>
+      <AnchorPane prefHeight="159.0" prefWidth="726.0" VBox.vgrow="ALWAYS">
+         <children>
+            <AnchorPane layoutX="91.0" layoutY="95.0" prefHeight="189.0" prefWidth="543.0" style="-fx-border-color: black;">
+               <children>
+                  <Label layoutX="138.0" layoutY="26.0" text="ID Client" />
+                  <Label layoutX="301.0" layoutY="26.0" text="ID Revue" />
+                  <Label layoutX="195.0" layoutY="72.0" text="Durée de l'abonnement" />
+                  <Label layoutX="111.0" layoutY="102.0" text="Du" />
+                  <Label layoutX="272.0" layoutY="102.0" text="au" />
+                  <TextField editable="false" layoutX="211.0" layoutY="21.0" prefHeight="25.0" prefWidth="40.0" />
+                  <TextField editable="false" layoutX="374.0" layoutY="21.0" prefHeight="25.0" prefWidth="40.0" />
+                  <DatePicker editable="false" layoutX="138.0" layoutY="97.0" prefHeight="25.0" prefWidth="125.0" />
+                  <DatePicker editable="false" layoutX="301.0" layoutY="97.0" prefHeight="25.0" prefWidth="125.0" />
+                  <Button layoutX="435.0" layoutY="149.0" mnemonicParsing="false" text="Supprimer" />
+                  <Button layoutX="335.0" layoutY="149.0" mnemonicParsing="false" prefWidth="79.0" text="Modifier" />
+               </children>
+            </AnchorPane>
+            <Label alignment="CENTER" layoutX="308.0" layoutY="77.0" text="Détails Abonnement" textAlignment="CENTER" />
+            <CheckBox layoutX="241.0" layoutY="14.0" mnemonicParsing="false" text="Voir seulement les abonnements en cours" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

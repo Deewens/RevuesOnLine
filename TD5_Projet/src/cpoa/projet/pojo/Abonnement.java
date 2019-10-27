@@ -58,6 +58,12 @@ public class Abonnement {
 	public void setDate_fin(LocalDate date_fin) {
 		this.date_fin = date_fin;
 	}
+	
+	@Override
+	public String toString() {
+		return "Abonnement [id_client=" + id_client + ", id_revue=" + id_revue + ", date_debut=" + date_debut
+				+ ", date_fin=" + date_fin + "]";
+	}
 
 	@Override
 	public int hashCode() {

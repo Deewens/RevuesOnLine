@@ -5,6 +5,7 @@ import java.net.URL;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -21,13 +22,13 @@ public class Main extends Application {
 			Node root = fxmlLoader.load();
 			
 			
-			Scene scene = new Scene((VBox) root, 600, 400);
+			Scene scene = new Scene((VBox) root);
 			
 			// primaryStage.getIcons().add(new Image("/icon.png"));
 			
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Gérer des revues");
+			primaryStage.setTitle("RevuesOnLine");
 			primaryStage.show();
 			
 		} catch(Exception e) {

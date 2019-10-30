@@ -11,6 +11,16 @@ public class Revue {
 	public Revue() {}
 	
 	public Revue(String titre, String description, double tarif_numero, String visuel, int id_periodicite) {
+		this.id_revue = -1;
+		this.titre = titre;
+		this.description = description;
+		this.tarif_numero = tarif_numero;
+		this.visuel = visuel;
+		this.id_periodicite = id_periodicite;
+	}
+	
+	public Revue(int id_revue, String titre, String description, double tarif_numero, String visuel, int id_periodicite) {
+		this.id_revue = id_revue;
 		this.titre = titre;
 		this.description = description;
 		this.tarif_numero = tarif_numero;

@@ -10,7 +10,7 @@ import cpoa.projet.exceptions.NonExistentDataObjectException;
 import cpoa.projet.pojo.Client;
 
 public class ListeMemoireClientDAO implements ClientDAO {
-	private static int id = 2;
+	private static int id;
 	private static ListeMemoireClientDAO instance;
 	private List<Client> data;
 	
@@ -19,6 +19,8 @@ public class ListeMemoireClientDAO implements ClientDAO {
 		
 		this.data.add(new Client(1, "Dudon", "Adrien", "37", "rue des cyprets", "57565", "Congo", "Afrique"));
 		this.data.add(new Client(2, "Adrien", "Dudon", "37", "rue des cyprets", "57565", "Congo", "Afrique"));
+		
+		id = this.data.size();
 	}
 	
 	public static ListeMemoireClientDAO getInstance() {

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,18 +46,21 @@ public class MySQLClientDAO implements ClientDAO {
 	
 	@Override
 	public boolean create(Client obj) throws SQLException {
-		PreparedStatement query = this.connect().prepareStatement("INSERT INTO client(id_client, nom, prenom, no_rue, voie, code_postal, ville, pays) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
-		query.setInt(1, obj.getId_client());
-		query.setString(2, obj.getNom());
-		query.setString(3, obj.getPrenom());
-		query.setString(4, obj.getNo_rue());
-		query.setString(5, obj.getVoie());
-		query.setString(6, obj.getCode_postal());
-		query.setString(7, obj.getVille());
-		query.setString(8, obj.getPays());
+		PreparedStatement query = this.connect().prepareStatement("INSERT INTO client(nom, prenom, no_rue, voie, code_postal, ville, pays) VALUES(?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+		query.setString(1, obj.getNom());
+		query.setString(2, obj.getPrenom());
+		query.setString(3, obj.getNo_rue());
+		query.setString(4, obj.getVoie());
+		query.setString(5, obj.getCode_postal());
+		query.setString(6, obj.getVille());
+		query.setString(7, obj.getPays());
 		
 
 		int rows = query.executeUpdate();
+		ResultSet rs = query.getGeneratedKeys();
+		if(rs.next()){
+			obj.setId_client(rs.getInt(1));
+		}
 
 		return rows==1;
 	}

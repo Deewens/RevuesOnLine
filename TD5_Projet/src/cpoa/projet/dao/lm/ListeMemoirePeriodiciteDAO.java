@@ -10,7 +10,7 @@ import cpoa.projet.exceptions.NonExistentDataObjectException;
 import cpoa.projet.pojo.Periodicite;
 
 public class ListeMemoirePeriodiciteDAO implements PeriodiciteDAO {
-	private static int id = 2;
+	private static int id;
 	private static ListeMemoirePeriodiciteDAO instance;
 	
 	private List<Periodicite> data;
@@ -20,6 +20,8 @@ public class ListeMemoirePeriodiciteDAO implements PeriodiciteDAO {
 		
 		this.data.add(new Periodicite(1, "Journalier"));
 		this.data.add(new Periodicite(2, "Mensuel"));
+		
+		id = this.data.size();
 	}
 
 	public static ListeMemoirePeriodiciteDAO getInstance() {

@@ -4,11 +4,13 @@ public class Periodicite {
 	private int id;
 	private String libelle;
 	
-	public Periodicite() {}
-
-	
 	public Periodicite(int id, String libelle) {
 		this.id = id;
+		this.libelle = libelle;
+	}
+	
+	public Periodicite(String libelle) {
+		this.id = -1;
 		this.libelle = libelle;
 	}
 	

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,11 +48,14 @@ public class MySQLPeriodiciteDAO implements PeriodiciteDAO {
 	
 	@Override
 	public boolean create(Periodicite obj) throws SQLException {
-		PreparedStatement query = this.connect().prepareStatement("INSERT INTO periodicite(id_periodicite, libelle) VALUES(?, ?)");
-		query.setInt(1, obj.getId());
-		query.setString(2, obj.getLibelle());
+		PreparedStatement query = this.connect().prepareStatement("INSERT INTO periodicite(libelle) VALUES(?)", Statement.RETURN_GENERATED_KEYS);
+		query.setString(1, obj.getLibelle());
 		
 		int rows = query.executeUpdate();
+		ResultSet rs = query.getGeneratedKeys();
+		if(rs.next()){
+			obj.setId(rs.getInt(1));
+		}
 
 		return rows==1;
 	}
@@ -85,10 +89,7 @@ public class MySQLPeriodiciteDAO implements PeriodiciteDAO {
 		ResultSet res = query.executeQuery();
 
 		while(res.next()) {
-			Periodicite period = new Periodicite();
-			
-			period.setId(res.getInt(1));
-			period.setLibelle(res.getString(2));
+			Periodicite period = new Periodicite(res.getInt(1), res.getString(2));
 
 			periodList.add(period);
 		}
@@ -107,10 +108,7 @@ public class MySQLPeriodiciteDAO implements PeriodiciteDAO {
 		
 		ResultSet res = query.executeQuery();
 		if(res.first()) {
-			Periodicite period = new Periodicite();
-			
-			period.setId(res.getInt(1));
-			period.setLibelle(res.getString(2));
+			Periodicite period = new Periodicite(res.getInt(1), res.getString(2));
 			
 			return period;
 		}

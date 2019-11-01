@@ -1,5 +1,7 @@
 package cpoa.projet.pojo;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class Client {
 	private int id_client;
 	private String nom;

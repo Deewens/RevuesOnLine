@@ -90,4 +90,31 @@ public class ListeMemoireRevueDAO implements RevueDAO {
 		return null;
 	}
 
+	@Override
+	public List<Revue> getByTitre(String titre) {
+		Iterator<Revue> dataIterator = this.data.iterator();
+		List<Revue> result = new ArrayList<Revue>();
+		
+		while(dataIterator.hasNext()) {
+			Revue datum = dataIterator.next();
+			if(datum.getTitre().equals(titre)) {
+				result.add(datum);
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public List<Revue> getLessThanTarif_numero(double tarif) {
+		Iterator<Revue> dataIterator = this.data.iterator();
+		List<Revue> result = new ArrayList<Revue>();
+		
+		while(dataIterator.hasNext()) {
+			Revue datum = dataIterator.next();
+			if(datum.getTarif_numero() >= tarif) {
+				result.add(datum);
+			}
+		}
+		return result;
+	}
 }

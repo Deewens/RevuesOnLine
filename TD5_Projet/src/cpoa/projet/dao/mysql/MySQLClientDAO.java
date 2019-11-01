@@ -145,6 +145,33 @@ public class MySQLClientDAO implements ClientDAO {
 		
 		return null;
 	}
+	
+	@Override
+	public List<Client> getByNom(String nom) throws SQLException {
+		List<Client> clientList = new ArrayList<>();
+
+		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM client WHERE nom = ?");
+		query.setString(1, nom);
+		
+		ResultSet res = query.executeQuery();
+
+		while(res.next()) {
+			Client client = new Client();
+			
+			client.setId_client(res.getInt(1));
+			client.setNom(res.getString(2));
+			client.setPrenom(res.getString(3));
+			client.setNo_rue(res.getString(4));
+			client.setVoie(res.getString(5));
+			client.setCode_postal(res.getString(6));
+			client.setVille(res.getString(7));
+			client.setPays(res.getString(8));
+
+			clientList.add(client);
+		}
+		
+		return clientList;
+	}
 
 	@Override
 	public List<Client> getByNomPrenom(String nom, String prenom) throws SQLException {

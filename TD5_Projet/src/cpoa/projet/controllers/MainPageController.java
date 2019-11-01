@@ -48,6 +48,10 @@ public class MainPageController implements Initializable {
 			final VBox node = (VBox)fxmlLoader.load();
 	        Scene scene = new Scene(node);
 	        stage.setScene(scene);
+	        
+			ClientController controller = fxmlLoader.getController();
+			controller.setStage(stage);
+			
 	        stage.show();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -56,11 +60,28 @@ public class MainPageController implements Initializable {
 	}
 	
 	public void periodButton() {
-		
+
 	}
 	
 	public void revButton() {
-		
+		try {
+	        Stage stage = new Stage();
+	        stage.initModality(Modality.APPLICATION_MODAL);
+	        
+	        URL fxmlURL = getClass().getResource("/cpoa/projet/views/revuesView.fxml");
+			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+			final VBox node = (VBox)fxmlLoader.load();
+	        Scene scene = new Scene(node);
+	        stage.setScene(scene);
+	        
+			RevuesController controller = fxmlLoader.getController();
+			controller.setStage(stage);
+			
+	        stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

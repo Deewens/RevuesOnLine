@@ -31,8 +31,10 @@ public class ListeMemoireClientDAO implements ClientDAO {
 	}
 	
 	@Override
-	public boolean create(Client obj) {		
+	public boolean create(Client obj) {
+		System.out.println(id);
 		obj.setId_client(++id);
+		System.out.println(id);
 		
 		boolean create = this.data.add(obj);
 		return create;
@@ -88,6 +90,20 @@ public class ListeMemoireClientDAO implements ClientDAO {
 		}
 		
 		return null;
+	}
+	
+	@Override
+	public List<Client> getByNom(String nom) {
+		Iterator<Client> dataIterator = this.data.iterator();
+		List<Client> result = new ArrayList<Client>();
+		
+		while(dataIterator.hasNext()) {
+			Client datum = dataIterator.next();
+			if(datum.getNom().equals(nom)) {
+				result.add(datum);
+			}
+		}
+		return result;
 	}
 
 	@Override

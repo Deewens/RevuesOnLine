@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cpoa.projet.dao.RevueDAO;
+import cpoa.projet.pojo.Client;
 import cpoa.projet.pojo.Revue;
 
 
@@ -134,5 +135,54 @@ public class MySQLRevueDAO implements RevueDAO {
 		
 		return null;
 	}
+	
+	@Override
+	public List<Revue> getByTitre(String titre) throws SQLException {
+		List<Revue> revueList = new ArrayList<>();
 
+		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM revue WHERE titre = ?");
+		query.setString(1, titre);
+		
+		ResultSet res = query.executeQuery();
+
+		while(res.next()) {
+			Revue revue = new Revue();
+			
+			revue.setId_revue(res.getInt(1));
+			revue.setTitre(res.getString(2));
+			revue.setDescription(res.getString(3));
+			revue.setTarif_numero(res.getDouble(4));
+			revue.setVisuel(res.getString(5));
+			revue.setId_periodicite(res.getInt(6));
+
+			revueList.add(revue);
+		}
+		
+		return revueList;
+	}
+	
+	@Override
+	public List<Revue> getLessThanTarif_numero(double tarif) throws SQLException {
+		List<Revue> revueList = new ArrayList<>();
+
+		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM revue WHERE tarif_numero >= ?");
+		query.setDouble(1, tarif);
+		
+		ResultSet res = query.executeQuery();
+
+		while(res.next()) {
+			Revue revue = new Revue();
+			
+			revue.setId_revue(res.getInt(1));
+			revue.setTitre(res.getString(2));
+			revue.setDescription(res.getString(3));
+			revue.setTarif_numero(res.getDouble(4));
+			revue.setVisuel(res.getString(5));
+			revue.setId_periodicite(res.getInt(6));
+
+			revueList.add(revue);
+		}
+		
+		return revueList;
+	}
 }

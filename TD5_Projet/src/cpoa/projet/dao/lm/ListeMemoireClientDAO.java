@@ -93,9 +93,9 @@ public class ListeMemoireClientDAO implements ClientDAO {
 	}
 	
 	@Override
-	public List<Client> getByNom(String nom) {
+	public ArrayList<Client> getByNom(String nom) {
 		Iterator<Client> dataIterator = this.data.iterator();
-		List<Client> result = new ArrayList<Client>();
+		ArrayList<Client> result = new ArrayList<Client>();
 		
 		while(dataIterator.hasNext()) {
 			Client datum = dataIterator.next();
@@ -107,9 +107,9 @@ public class ListeMemoireClientDAO implements ClientDAO {
 	}
 
 	@Override
-	public List<Client> getByNomPrenom(String nom, String prenom) {
+	public ArrayList<Client> getByNomPrenom(String nom, String prenom) {
 		Iterator<Client> dataIterator = this.data.iterator();
-		List<Client> result = new ArrayList<Client>();
+		ArrayList<Client> result = new ArrayList<Client>();
 		
 		while(dataIterator.hasNext()) {
 			Client datum = dataIterator.next();

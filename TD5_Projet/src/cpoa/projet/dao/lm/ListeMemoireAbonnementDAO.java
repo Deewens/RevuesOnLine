@@ -106,11 +106,39 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 		}
 		return null;
 	}
+	
+	@Override
+	public ArrayList<Abonnement> getByIdClient(int idClient) throws Exception {
+		Iterator<Abonnement> dataIterator = this.data.iterator();
+		ArrayList<Abonnement> result = new ArrayList<Abonnement>();
+		
+		while(dataIterator.hasNext()) {
+			Abonnement datum = dataIterator.next();
+			if(datum.getId_client() == idClient) {
+				result.add(datum);
+			}
+		}
+		return result;
+	}
 
 	@Override
-	public List<Abonnement> getByDate_debut(LocalDate date_debut) {
+	public ArrayList<Abonnement> getByIdRevue(int idRevue) throws Exception {
 		Iterator<Abonnement> dataIterator = this.data.iterator();
-		List<Abonnement> result = new ArrayList<Abonnement>();
+		ArrayList<Abonnement> result = new ArrayList<Abonnement>();
+		
+		while(dataIterator.hasNext()) {
+			Abonnement datum = dataIterator.next();
+			if(datum.getId_revue() == idRevue) {
+				result.add(datum);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public ArrayList<Abonnement> getByDate_debut(LocalDate date_debut) {
+		Iterator<Abonnement> dataIterator = this.data.iterator();
+		ArrayList<Abonnement> result = new ArrayList<Abonnement>();
 		
 		while(dataIterator.hasNext()) {
 			Abonnement datum = dataIterator.next();
@@ -122,9 +150,9 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 	}
 
 	@Override
-	public List<Abonnement> getByDate_fin(LocalDate date_fin) {
+	public ArrayList<Abonnement> getByDate_fin(LocalDate date_fin) {
 		Iterator<Abonnement> dataIterator = this.data.iterator();
-		List<Abonnement> result = new ArrayList<Abonnement>();
+		ArrayList<Abonnement> result = new ArrayList<Abonnement>();
 		
 		while(dataIterator.hasNext()) {
 			Abonnement datum = dataIterator.next();
@@ -135,5 +163,4 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 		
 		return result;
 	}
-
 }

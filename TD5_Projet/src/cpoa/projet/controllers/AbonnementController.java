@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import cpoa.projet.factory.DAOFactory;
@@ -149,7 +150,7 @@ public class AbonnementController implements Initializable {
 					(observable, oldValue, newValue) -> {
 						if(newValue != null) {
 							if(this.filterCurrentAbo.isSelected()) {
-								ArrayList<AbonnementBuffer> listCurrentAbonnement = new ArrayList<>();
+								List<AbonnementBuffer> listCurrentAbonnement = new ArrayList<>();
 								try {
 									listCurrentAbonnement = dao.getAbonnementBufferDAO().getAboWithNameAndTitle();
 								} catch (Exception e) {
@@ -255,6 +256,7 @@ public class AbonnementController implements Initializable {
 	public void deleteButton() {
 		AbonnementBuffer selectedAbonnement = aboTable.getSelectionModel().getSelectedItem();
 		Abonnement abo = new Abonnement(selectedAbonnement.getAbo().getId_client(), selectedAbonnement.getAbo().getId_revue(), selectedAbonnement.getAbo().getDate_debut(), selectedAbonnement.getAbo().getDate_fin());
+		
 		try {
 			dao.getAbonnementDAO().delete(abo);
 		} catch (Exception e) {

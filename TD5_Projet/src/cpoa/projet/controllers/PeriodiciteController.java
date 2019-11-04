@@ -2,10 +2,12 @@ package cpoa.projet.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import cpoa.projet.factory.DAOFactory;
 import cpoa.projet.pojo.Periodicite;
+import cpoa.projet.pojo.Revue;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -146,12 +149,22 @@ public final class PeriodiciteController implements Initializable {
 	public void deleteButton() {
 		Periodicite selectedPeriod = periodTable.getSelectionModel().getSelectedItem();
 		try {
-			dao.getPeriodiciteDAO().delete(selectedPeriod);
+			ArrayList<Revue> revueList = dao.getRevueDAO().getByIdPeriodicite(selectedPeriod.getId());
+			if(revueList.isEmpty()) {
+				dao.getPeriodiciteDAO().delete(selectedPeriod);
+				this.refreshTableView();
+			}
+			else {
+				Alert alert=new Alert(Alert.AlertType.ERROR);
+				alert.initOwner(this.stage);
+				alert.setTitle("Erreur de suppresion");
+				alert.setHeaderText("Vous tentez de supprimer une donnée utilisé ailleurs");
+				alert.setContentText("Cette périodicité est lié à une revue, vous ne pouvez pas la supprimer");
+				alert.showAndWait();
+			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.refreshTableView();
 	}
 	
 	public void refreshTableView() {

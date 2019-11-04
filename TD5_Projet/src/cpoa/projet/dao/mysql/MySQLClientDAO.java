@@ -154,8 +154,8 @@ public class MySQLClientDAO implements ClientDAO {
 	}
 	
 	@Override
-	public List<Client> getByNom(String nom) throws SQLException {
-		List<Client> clientList = new ArrayList<>();
+	public ArrayList<Client> getByNom(String nom) throws SQLException {
+		ArrayList<Client> clientList = new ArrayList<>();
 
 		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM client WHERE nom = ?");
 		query.setString(1, nom);
@@ -181,8 +181,8 @@ public class MySQLClientDAO implements ClientDAO {
 	}
 
 	@Override
-	public List<Client> getByNomPrenom(String nom, String prenom) throws SQLException {
-		List<Client> clientList = new ArrayList<>();
+	public ArrayList<Client> getByNomPrenom(String nom, String prenom) throws SQLException {
+		ArrayList<Client> clientList = new ArrayList<>();
 
 		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM client WHERE nom = ? AND prenom = ?");
 		query.setString(1, nom);

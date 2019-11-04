@@ -140,10 +140,54 @@ public class MySQLAbonnementDAO implements AbonnementDAO {
 		
 		return null;
 	}
+	
+	@Override
+	public ArrayList<Abonnement> getByIdClient(int idClient) throws SQLException {
+		ArrayList<Abonnement> aboList = new ArrayList<>();
+
+		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM abonnement WHERE id_client = ?");
+		query.setInt(1, idClient);
+		ResultSet res = query.executeQuery();
+
+		while(res.next()) {
+			Abonnement abo = new Abonnement();
+
+			abo.setId_client(res.getInt(1));
+			abo.setId_revue(res.getInt(2));
+			abo.setDate_debut(res.getDate(3).toLocalDate());
+			abo.setDate_fin(res.getDate(4).toLocalDate());
+
+			aboList.add(abo);
+		}
+		
+		return aboList;
+	}
 
 	@Override
-	public List<Abonnement> getByDate_debut(LocalDate date_debut) throws SQLException {
-		List<Abonnement> aboList = new ArrayList<>();
+	public ArrayList<Abonnement> getByIdRevue(int idRevue) throws SQLException {
+		ArrayList<Abonnement> aboList = new ArrayList<>();
+
+		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM abonnement WHERE id_revue = ?");
+		query.setInt(1, idRevue);
+		ResultSet res = query.executeQuery();
+
+		while(res.next()) {
+			Abonnement abo = new Abonnement();
+
+			abo.setId_client(res.getInt(1));
+			abo.setId_revue(res.getInt(2));
+			abo.setDate_debut(res.getDate(3).toLocalDate());
+			abo.setDate_fin(res.getDate(4).toLocalDate());
+
+			aboList.add(abo);
+		}
+		
+		return aboList;
+	}
+
+	@Override
+	public ArrayList<Abonnement> getByDate_debut(LocalDate date_debut) throws SQLException {
+		ArrayList<Abonnement> aboList = new ArrayList<>();
 
 		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM abonnement WHERE date_debut = ?");
 		query.setDate(1, Date.valueOf(date_debut));
@@ -164,8 +208,8 @@ public class MySQLAbonnementDAO implements AbonnementDAO {
 	}
 
 	@Override
-	public List<Abonnement> getByDate_fin(LocalDate date_fin) throws SQLException {
-		List<Abonnement> aboList = new ArrayList<>();
+	public ArrayList<Abonnement> getByDate_fin(LocalDate date_fin) throws SQLException {
+		ArrayList<Abonnement> aboList = new ArrayList<>();
 
 		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM abonnement WHERE date_fin = ?");
 		query.setDate(1, Date.valueOf(date_fin));
@@ -184,5 +228,4 @@ public class MySQLAbonnementDAO implements AbonnementDAO {
 		
 		return aboList;
 	}
-
 }

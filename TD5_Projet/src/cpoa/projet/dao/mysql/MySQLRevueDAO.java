@@ -144,8 +144,8 @@ public class MySQLRevueDAO implements RevueDAO {
 	}
 	
 	@Override
-	public List<Revue> getByTitre(String titre) throws SQLException {
-		List<Revue> revueList = new ArrayList<>();
+	public ArrayList<Revue> getByTitre(String titre) throws SQLException {
+		ArrayList<Revue> revueList = new ArrayList<>();
 
 		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM revue WHERE titre = ?");
 		query.setString(1, titre);
@@ -169,11 +169,36 @@ public class MySQLRevueDAO implements RevueDAO {
 	}
 	
 	@Override
-	public List<Revue> getLessThanTarif_numero(double tarif) throws SQLException {
-		List<Revue> revueList = new ArrayList<>();
+	public ArrayList<Revue> getLessThanTarif_numero(double tarif) throws SQLException {
+		ArrayList<Revue> revueList = new ArrayList<>();
 
 		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM revue WHERE tarif_numero >= ?");
 		query.setDouble(1, tarif);
+		
+		ResultSet res = query.executeQuery();
+
+		while(res.next()) {
+			Revue revue = new Revue();
+			
+			revue.setId_revue(res.getInt(1));
+			revue.setTitre(res.getString(2));
+			revue.setDescription(res.getString(3));
+			revue.setTarif_numero(res.getDouble(4));
+			revue.setVisuel(res.getString(5));
+			revue.setId_periodicite(res.getInt(6));
+
+			revueList.add(revue);
+		}
+		
+		return revueList;
+	}
+
+	@Override
+	public ArrayList<Revue> getByIdPeriodicite(int id) throws Exception {
+		ArrayList<Revue> revueList = new ArrayList<>();
+
+		PreparedStatement query = this.connect().prepareStatement("SELECT * FROM revue WHERE id_periodicite = ?");
+		query.setInt(1, id);
 		
 		ResultSet res = query.executeQuery();
 

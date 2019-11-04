@@ -55,7 +55,7 @@ public class MySQLAbonnementBufferDAO implements AbonnementBufferDAO {
 	
 	@Override
 	public ArrayList<AbonnementBuffer> getAboWithNameAndTitle() throws SQLException {
-		List<AbonnementBuffer> aboBufferList = new ArrayList<>();
+		ArrayList<AbonnementBuffer> aboBufferList = new ArrayList<>();
 		
 		PreparedStatement query = this.connect().prepareStatement("SELECT abonnement.id_client, abonnement.id_revue, nom, prenom, no_rue, voie, code_postal, ville, pays, titre, description, tarif_numero, visuel, id_periodicite, date_debut, date_fin\r\n" + 
 				"FROM abonnement\r\n" + 
@@ -73,6 +73,6 @@ public class MySQLAbonnementBufferDAO implements AbonnementBufferDAO {
 			aboBufferList.add(aboBuffer);
 		}
 		
-		return (ArrayList<AbonnementBuffer>)aboBufferList;
+		return aboBufferList;
 	}
 }

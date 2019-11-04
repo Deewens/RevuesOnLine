@@ -3,6 +3,7 @@ package cpoa.projet.controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -296,15 +298,25 @@ public class RevueController implements Initializable {
 	
 	@FXML
 	public void deleteButton() {
-		RevueBuffer selectedRevue = revuesTable.getSelectionModel().getSelectedItem();
-		Revue revue = new Revue(selectedRevue.getRevue().getId_revue(), selectedRevue.getRevue().getTitre(), selectedRevue.getRevue().getDescription(), selectedRevue.getRevue().getTarif_numero(), selectedRevue.getRevue().getVisuel(), selectedRevue.getRevue().getId_periodicite());
+		RevueBuffer selectedRevue = revuesTable.getSelectionModel().getSelectedItem();	
 		try {
-			dao.getRevueDAO().delete(revue);
+			List<Abonnement> aboList = dao.getAbonnementDAO().getByIdRevue(selectedRevue.getRevue().getId_revue());
+			if(aboList.isEmpty()) {
+				Revue revue = new Revue(selectedRevue.getRevue().getId_revue(), selectedRevue.getRevue().getTitre(), selectedRevue.getRevue().getDescription(), selectedRevue.getRevue().getTarif_numero(), selectedRevue.getRevue().getVisuel(), selectedRevue.getRevue().getId_periodicite());
+				dao.getRevueDAO().delete(revue);
+				this.refreshTableView();
+			}
+			else {
+				Alert alert=new Alert(Alert.AlertType.ERROR);
+				alert.initOwner(this.stage);
+				alert.setTitle("Erreur de suppresion");
+				alert.setHeaderText("Vous tentez de supprimer une donnée utilisé ailleurs");
+				alert.setContentText("Cette revue est lié à un abonnement, vous ne pouvez pas la supprimer");
+				alert.showAndWait();
+			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.refreshTableView();
 	}
 	
 	public void refreshTableView() {

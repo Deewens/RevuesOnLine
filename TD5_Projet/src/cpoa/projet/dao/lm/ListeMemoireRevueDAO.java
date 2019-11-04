@@ -91,9 +91,9 @@ public class ListeMemoireRevueDAO implements RevueDAO {
 	}
 
 	@Override
-	public List<Revue> getByTitre(String titre) {
+	public ArrayList<Revue> getByTitre(String titre) {
 		Iterator<Revue> dataIterator = this.data.iterator();
-		List<Revue> result = new ArrayList<Revue>();
+		ArrayList<Revue> result = new ArrayList<Revue>();
 		
 		while(dataIterator.hasNext()) {
 			Revue datum = dataIterator.next();
@@ -105,13 +105,27 @@ public class ListeMemoireRevueDAO implements RevueDAO {
 	}
 	
 	@Override
-	public List<Revue> getLessThanTarif_numero(double tarif) {
+	public ArrayList<Revue> getLessThanTarif_numero(double tarif) {
 		Iterator<Revue> dataIterator = this.data.iterator();
-		List<Revue> result = new ArrayList<Revue>();
+		ArrayList<Revue> result = new ArrayList<Revue>();
 		
 		while(dataIterator.hasNext()) {
 			Revue datum = dataIterator.next();
 			if(datum.getTarif_numero() >= tarif) {
+				result.add(datum);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public ArrayList<Revue> getByIdPeriodicite(int id) throws Exception {
+		Iterator<Revue> dataIterator = this.data.iterator();
+		ArrayList<Revue> result = new ArrayList<Revue>();
+		
+		while(dataIterator.hasNext()) {
+			Revue datum = dataIterator.next();
+			if(datum.getId_periodicite() == id) {
 				result.add(datum);
 			}
 		}

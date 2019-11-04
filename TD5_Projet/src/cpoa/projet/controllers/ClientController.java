@@ -2,13 +2,13 @@ package cpoa.projet.controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import cpoa.projet.factory.DAOFactory;
+import cpoa.projet.pojo.Abonnement;
 import cpoa.projet.pojo.Client;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -195,13 +196,25 @@ public class ClientController implements Initializable {
 	@FXML
 	public void deleteButton() {
 		Client selectedClient = clTable.getSelectionModel().getSelectedItem();
+		
 		try {
-			dao.getClientDAO().delete(selectedClient);
+			List<Abonnement> aboList = dao.getAbonnementDAO().getByIdClient(selectedClient.getId_client());
+			if(aboList.isEmpty()) {
+				dao.getClientDAO().delete(selectedClient);
+				this.refreshTableView();
+			}
+			else {
+				Alert alert=new Alert(Alert.AlertType.ERROR);
+				alert.initOwner(this.stage);
+				alert.setTitle("Erreur de suppresion");
+				alert.setHeaderText("Suppresion d'un élément utilisé ailleurs");
+				alert.setContentText("Ce client est lié à un abonnement, vous ne pouvez pas le supprimer");
+				alert.showAndWait();
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.refreshTableView();
 	}
 	
 	@FXML

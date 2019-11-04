@@ -25,9 +25,10 @@ public class ListeMemoireRevueBufferDAO implements RevueBufferDAO {
 		}
 		return instance;
 	}
-	
-	public ListeMemoireRevueBufferDAO() {
-		this.data = new ArrayList<RevueBuffer>();
+
+	@Override
+	public ArrayList<RevueBuffer> getClientAndPeriodLibelleAndAboNb() {
+		ArrayList<RevueBuffer> result = new ArrayList<>();
 		ArrayList<Revue> listRevue = new ArrayList<>();
 		ArrayList<Periodicite> listPeriod = new ArrayList<>();
 		try {
@@ -46,16 +47,12 @@ public class ListeMemoireRevueBufferDAO implements RevueBufferDAO {
 			while(periodIterator.hasNext()) {
 				Periodicite period = periodIterator.next();
 				if(datum.getId_periodicite() == period.getId()) {
-					this.data.add(new RevueBuffer(datum, period, 0));
+					result.add(new RevueBuffer(datum, period, 0));
 				}
 			}
 		}
-		id = this.data.size();
-	}
-
-	@Override
-	public ArrayList<RevueBuffer> getClientAndPeriodLibelleAndAboNb() {
-		return (ArrayList<RevueBuffer>) data;
+		
+		return (ArrayList<RevueBuffer>) result;
 	}
 
 	@Override

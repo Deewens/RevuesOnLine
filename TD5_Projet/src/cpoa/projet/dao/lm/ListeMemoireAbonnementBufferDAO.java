@@ -10,16 +10,11 @@ import cpoa.projet.factory.DAOFactory;
 import cpoa.projet.pojo.Abonnement;
 import cpoa.projet.pojo.AbonnementBuffer;
 import cpoa.projet.pojo.Client;
-import cpoa.projet.pojo.Periodicite;
 import cpoa.projet.pojo.Revue;
-import cpoa.projet.pojo.RevueBuffer;
 
 public class ListeMemoireAbonnementBufferDAO implements AbonnementBufferDAO {
-	private static int id;
 	private static ListeMemoireAbonnementBufferDAO instance;
 	private static DAOFactory dao = DAOFactory.getDAOFactory(Persistance.ListeMemoire);
-	
-	private List<AbonnementBuffer> data;
 
 	public static ListeMemoireAbonnementBufferDAO getInstance() {
 		if(instance == null) {
@@ -28,8 +23,9 @@ public class ListeMemoireAbonnementBufferDAO implements AbonnementBufferDAO {
 		return instance;
 	}
 	
-	public ListeMemoireAbonnementBufferDAO() {
-		this.data = new ArrayList<AbonnementBuffer>();
+	@Override
+	public ArrayList<AbonnementBuffer> getAboWithNameAndTitle() {
+		ArrayList<AbonnementBuffer> result = new ArrayList<>();
 		ArrayList<Abonnement> listAbo = new ArrayList<>();
 		ArrayList<Client> listClient = new ArrayList<>();
 		ArrayList<Revue> listRevue = new ArrayList<>();
@@ -45,8 +41,6 @@ public class ListeMemoireAbonnementBufferDAO implements AbonnementBufferDAO {
 		
 		Iterator<Abonnement> aboIterator = listAbo.iterator();
 		
-		
-		
 		while (aboIterator.hasNext()) {
 			Abonnement abo = aboIterator.next();
 			Iterator<Client> clientIterator = listClient.iterator();
@@ -56,18 +50,13 @@ public class ListeMemoireAbonnementBufferDAO implements AbonnementBufferDAO {
 				while(revueIterator.hasNext()) {
 					Revue revue = revueIterator.next();
 					if(abo.getId_client() == client.getId_client() && abo.getId_revue() == revue.getId_revue()) {
-						this.data.add(new AbonnementBuffer(abo, client, revue, abo.getDate_debut(), abo.getDate_fin()));
+						result.add(new AbonnementBuffer(abo, client, revue, abo.getDate_debut(), abo.getDate_fin()));
 					}
 				}
 			}
 		}
 		
-		id = this.data.size();
-	}
-	@Override
-	public ArrayList<AbonnementBuffer> getAboWithNameAndTitle() {
-		// TODO Auto-generated method stub
-		return (ArrayList<AbonnementBuffer>) data;
+		return result;
 	}
 
 }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane fx:id="detailsPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="226.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cpoa.projet.controllers.AbonnementDetailsController">
+   <children>
+      <AnchorPane layoutX="21.0" layoutY="19.0" prefHeight="189.0" prefWidth="543.0" style="-fx-border-color: black;">
+         <children>
+            <GridPane layoutX="39.0" layoutY="13.0" prefHeight="162.0" prefWidth="318.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.199951171875" minWidth="10.0" prefWidth="133.3999786376953" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="246.39999694824218" minWidth="10.0" prefWidth="208.80002136230468" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Client" GridPane.halignment="RIGHT">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Revue" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Début d'abonnement" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Fin d'abonnement" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+                  <DatePicker fx:id="dateDebutDP" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <DatePicker fx:id="dateFinDP" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <ComboBox fx:id="clientComboBox" prefWidth="150.0" GridPane.columnIndex="1" />
+                  <ComboBox fx:id="revueComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <Button fx:id="cancelButton" cancelButton="true" layoutX="467.0" layoutY="149.0" mnemonicParsing="false" onMouseClicked="#cancelButton" prefHeight="26.0" prefWidth="69.0" text="Annuler" />
+            <Button fx:id="addButton" layoutX="383.0" layoutY="149.0" mnemonicParsing="false" onMouseClicked="#addButton" prefWidth="69.0" text="Ajouter" />
+            <Button fx:id="updateButton" layoutX="383.0" layoutY="149.0" mnemonicParsing="false" onMouseClicked="#updateButton" prefHeight="26.0" prefWidth="69.0" text="Modifier" visible="false" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

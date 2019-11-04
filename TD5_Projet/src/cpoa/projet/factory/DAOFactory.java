@@ -1,9 +1,11 @@
 package cpoa.projet.factory;
 
 import cpoa.projet.Persistance;
+import cpoa.projet.dao.AbonnementBufferDAO;
 import cpoa.projet.dao.AbonnementDAO;
 import cpoa.projet.dao.ClientDAO;
 import cpoa.projet.dao.PeriodiciteDAO;
+import cpoa.projet.dao.RevueBufferDAO;
 import cpoa.projet.dao.RevueDAO;
 
 public abstract class DAOFactory {
@@ -27,6 +29,6 @@ public abstract class DAOFactory {
 	public abstract ClientDAO getClientDAO();
 	public abstract PeriodiciteDAO getPeriodiciteDAO();
 	public abstract RevueDAO getRevueDAO();
-	
-	// Rajouter les autres get
+	public abstract RevueBufferDAO getRevueBufferDAO();
+	public abstract AbonnementBufferDAO getAbonnementBufferDAO();
 }

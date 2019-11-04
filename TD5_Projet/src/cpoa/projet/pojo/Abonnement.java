@@ -9,8 +9,9 @@ public class Abonnement {
 	private LocalDate date_debut;
 	private LocalDate date_fin;
 	
+	DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	
 	public Abonnement() {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDate dateDebut = LocalDate.parse("01/01/1900", format);
 		LocalDate dateFin = LocalDate.parse("31/12/1900", format);
 		

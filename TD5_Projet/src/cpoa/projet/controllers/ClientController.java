@@ -2,14 +2,11 @@ package cpoa.projet.controllers;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import cpoa.projet.Persistance;
 import cpoa.projet.factory.DAOFactory;
 import cpoa.projet.pojo.Client;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -29,7 +26,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class ClientController implements Initializable, ChangeListener<Client> {
+public class ClientController implements Initializable {
 	@FXML private Button backButton;
 	@FXML private Button deleteButton;
 	@FXML private Button addButton;
@@ -53,7 +50,11 @@ public class ClientController implements Initializable, ChangeListener<Client> {
 	
 	FilteredList<Client> fListClient;
 
-	private DAOFactory daos = DAOFactory.getDAOFactory(Persistance.ListeMemoire);
+	private DAOFactory dao;
+	
+	public void setDAOFactory(DAOFactory dao) {
+		this.dao = dao;
+	}
 	
 	public void setStage(Stage stage) {
 		this.stage = stage;
@@ -61,46 +62,48 @@ public class ClientController implements Initializable, ChangeListener<Client> {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		ObservableList<Client> oListClient = FXCollections.observableArrayList();
-		try {
-			oListClient = FXCollections.observableArrayList(daos.getClientDAO().getAll());
-		} catch (Exception e) {
-			System.out.println("Erreur de récupération des données de client : " + e.getMessage());
-			e.printStackTrace();
-		}
-		this.firstnameColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("nom"));
-		this.surnameColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("prenom"));
-		this.streetNbColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("no_rue"));
-		this.streetColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("voie"));
-		this.zipColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("code_postal"));
-		this.cityColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("ville"));
-		this.countryColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("pays"));
-		
-		this.clTable.getColumns().setAll(firstnameColumn, surnameColumn, streetNbColumn, streetColumn, zipColumn, cityColumn, countryColumn);
-		
-		this.fListClient = new FilteredList<>(oListClient);
-		this.clTable.getItems().addAll(fListClient);
-		
-		this.clTable.getSelectionModel().selectedItemProperty().addListener(
-			(observable, oldValue, newValue) -> {
-				this.deleteButton.setDisable(newValue == null);
-				this.updateButton.setDisable(newValue == null);
+		this.clTable.setPlaceholder(new Label("Il n'existe aucun client."));
+		Platform.runLater(() -> {
+			ObservableList<Client> oListClient = FXCollections.observableArrayList();
+			try {
+				oListClient = FXCollections.observableArrayList(dao.getClientDAO().getAll());
+			} catch (Exception e) {
+				System.out.println("Erreur de récupération des données de client : " + e.getMessage());
+				e.printStackTrace();
 			}
-		);
-		
-		this.searchModCB.getItems().addAll("Par nom", "Par nom/prénom");
-		this.searchModCB.setValue("Par nom");
-		
-		searchModCB.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) ->
-        {//reset table and textfield when new choice is selected
-            if (newVal != null)
-            {
-            	this.searchErrorLabel.setText("");
-            	this.refreshTableView();
-                searchBar.setText("");
-            }
-        });
-	     
+			this.firstnameColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("nom"));
+			this.surnameColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("prenom"));
+			this.streetNbColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("no_rue"));
+			this.streetColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("voie"));
+			this.zipColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("code_postal"));
+			this.cityColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("ville"));
+			this.countryColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("pays"));
+			
+			this.clTable.getColumns().setAll(firstnameColumn, surnameColumn, streetNbColumn, streetColumn, zipColumn, cityColumn, countryColumn);
+			
+			this.fListClient = new FilteredList<>(oListClient);
+			this.clTable.getItems().addAll(fListClient);
+			
+			this.clTable.getSelectionModel().selectedItemProperty().addListener(
+				(observable, oldValue, newValue) -> {
+					this.deleteButton.setDisable(newValue == null);
+					this.updateButton.setDisable(newValue == null);
+				}
+			);
+			
+			this.searchModCB.getItems().addAll("Par nom", "Par nom/prénom");
+			this.searchModCB.setValue("Par nom");
+			
+			searchModCB.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) ->
+	        {//reset table and textfield when new choice is selected
+	            if (newVal != null)
+	            {
+	            	this.searchErrorLabel.setText("");
+	            	this.refreshTableView();
+	                searchBar.setText("");
+	            }
+	        });
+		});
 	}
 	
 	@FXML
@@ -110,8 +113,6 @@ public class ClientController implements Initializable, ChangeListener<Client> {
 	
 	@FXML
 	public void searchBarKeyReleased() {
-		System.out.println("test");
-		
 		if(searchModCB.getValue() == "Par nom") {
 			this.searchErrorLabel.setText("");
 			fListClient.predicateProperty();
@@ -123,7 +124,7 @@ public class ClientController implements Initializable, ChangeListener<Client> {
 			else {
 				ObservableList<Client> oListClient = FXCollections.observableArrayList();
 				try {
-					oListClient = FXCollections.observableArrayList(daos.getClientDAO().getByNom(search));
+					oListClient = FXCollections.observableArrayList(dao.getClientDAO().getByNom(search));
 				} catch (Exception e) {
 					System.out.println("Erreur de récupération des données de client : " + e.getMessage());
 					e.printStackTrace();
@@ -139,14 +140,16 @@ public class ClientController implements Initializable, ChangeListener<Client> {
 			this.searchErrorLabel.setText("Vous devez rechercher sous la forme \"John Doe\"");
 			String search = searchBar.getText();
 			String[] searchSplit = search.split(" ");
+			if(search.isBlank()) {
+				this.searchErrorLabel.setText("");
+				this.refreshTableView();
+			}
+			
 			if(searchSplit.length == 2) {
-				if(search.isBlank()) {
-					this.refreshTableView();
-				}
-				else {
+				this.searchErrorLabel.setText("");
 					ObservableList<Client> oListClient = FXCollections.observableArrayList();
 					try {
-						oListClient = FXCollections.observableArrayList(daos.getClientDAO().getByNomPrenom(searchSplit[0], searchSplit[1]));
+						oListClient = FXCollections.observableArrayList(dao.getClientDAO().getByNomPrenom(searchSplit[0], searchSplit[1]));
 					} catch (Exception e) {
 						System.out.println("Erreur de récupération des données de client : " + e.getMessage());
 						e.printStackTrace();
@@ -160,7 +163,6 @@ public class ClientController implements Initializable, ChangeListener<Client> {
 			}
 		}
 		
-	}
 	
 	@FXML
 	public void addButton() {
@@ -170,7 +172,8 @@ public class ClientController implements Initializable, ChangeListener<Client> {
 			final AnchorPane node = (AnchorPane)fxmlLoader.load();
 			Scene scene = new Scene(node);
 			
-			ControllerDetailsClient controller = fxmlLoader.getController();
+			ClientDetailsController controller = fxmlLoader.getController();
+			controller.setDAOFactory(dao);
 			
 			Stage stageDetailsClient = new Stage();
 			stageDetailsClient.setScene(scene);
@@ -193,7 +196,7 @@ public class ClientController implements Initializable, ChangeListener<Client> {
 	public void deleteButton() {
 		Client selectedClient = clTable.getSelectionModel().getSelectedItem();
 		try {
-			daos.getClientDAO().delete(selectedClient);
+			dao.getClientDAO().delete(selectedClient);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -216,12 +219,13 @@ public class ClientController implements Initializable, ChangeListener<Client> {
 			final AnchorPane node = (AnchorPane)fxmlLoader.load();
 			Scene scene = new Scene(node);
 			
-			ControllerDetailsClient controller = fxmlLoader.getController();
+			ClientDetailsController controller = fxmlLoader.getController();
 			controller.initData(client);
+			controller.setDAOFactory(dao);
 			
 			Stage stageDetailsClient = new Stage();
 			stageDetailsClient.setScene(scene);
-			stageDetailsClient.setTitle("Ajouter");
+			stageDetailsClient.setTitle("Modification d'un client");
 			
 			controller.setStage(stageDetailsClient);
 			stageDetailsClient.showAndWait();
@@ -238,7 +242,7 @@ public class ClientController implements Initializable, ChangeListener<Client> {
 	public void refreshTableView() {
 		ObservableList<Client> oListClient = FXCollections.observableArrayList();
 		try {
-			oListClient = FXCollections.observableArrayList(daos.getClientDAO().getAll());
+			oListClient = FXCollections.observableArrayList(dao.getClientDAO().getAll());
 		} catch (Exception e) {
 			System.out.println("Erreur de récupération des données de client : " + e.getMessage());
 			e.printStackTrace();
@@ -247,11 +251,5 @@ public class ClientController implements Initializable, ChangeListener<Client> {
 		clTable.getItems().clear();
 		this.fListClient = new FilteredList<>(oListClient);
 		this.clTable.getItems().addAll(fListClient);
-	}
-
-	@Override
-	public void changed(ObservableValue<? extends Client> arg0, Client arg1, Client arg2) {
-		// TODO Auto-generated method stub
-
 	}
 }

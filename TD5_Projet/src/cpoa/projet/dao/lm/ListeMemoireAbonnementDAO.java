@@ -26,7 +26,7 @@ public class ListeMemoireAbonnementDAO implements AbonnementDAO {
 		LocalDate dateFin = LocalDate.parse("20/02/2019", formatage);
 		
 		this.data.add(new Abonnement(1, 2, dateDebut, dateFin));
-		this.data.add(new Abonnement(2, 4, dateDebut, dateFin));
+		this.data.add(new Abonnement(2, 1, dateDebut, dateFin));
 	}
 
 	public static ListeMemoireAbonnementDAO getInstance() {

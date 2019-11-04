@@ -19,17 +19,17 @@
       <menus>
         <Menu mnemonicParsing="false" text="Persistance">
           <items>
-                  <RadioMenuItem mnemonicParsing="false" text="Liste Mémoire">
+                  <RadioMenuItem fx:id="lmPersistanceMenu" mnemonicParsing="false" text="Liste Mémoire">
                      <toggleGroup>
                         <ToggleGroup fx:id="persitance" />
                      </toggleGroup>
                   </RadioMenuItem>
-                  <RadioMenuItem mnemonicParsing="false" text="MySQL" toggleGroup="$persitance" />
+                  <RadioMenuItem fx:id="mysqlPersistanceMenu" mnemonicParsing="false" text="MySQL" toggleGroup="$persitance" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Aide">
           <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+            <MenuItem mnemonicParsing="false" text="A propos" />
           </items>
         </Menu>
       </menus>
@@ -39,7 +39,7 @@
             <Font size="40.0" />
          </font>
       </Label>
-      <Label text="Bienvenue sur notre logiciel de gestion de base de données." />
+      <Label text="Bienvenue sur notre logiciel de gestion des revues." />
       <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

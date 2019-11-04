@@ -17,8 +17,8 @@ public class ListeMemoireClientDAO implements ClientDAO {
 	public ListeMemoireClientDAO() {
 		this.data = new ArrayList<Client>();
 		
-		this.data.add(new Client(1, "Dudon", "Adrien", "37", "rue des cyprets", "57565", "Congo", "Afrique"));
-		this.data.add(new Client(2, "Adrien", "Dudon", "37", "rue des cyprets", "57565", "Congo", "Afrique"));
+		this.data.add(new Client(1, "Dudon", "Adrien", "37", "rue des cyprets", "57565", "Niderviller", "France"));
+		this.data.add(new Client(2, "Fauvet", "Olivier", "117", "rue des vaches", "57000", "Metz", "France"));
 		
 		id = this.data.size();
 	}

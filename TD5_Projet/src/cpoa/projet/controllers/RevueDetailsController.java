@@ -6,9 +6,10 @@ import java.util.regex.Pattern;
 
 import cpoa.projet.Persistance;
 import cpoa.projet.factory.DAOFactory;
-import cpoa.projet.pojo.Client;
 import cpoa.projet.pojo.Periodicite;
 import cpoa.projet.pojo.Revue;
+import cpoa.projet.pojo.RevueBuffer;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,7 +19,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class RevueDetailsController implements Initializable {
@@ -44,7 +44,11 @@ public class RevueDetailsController implements Initializable {
 	
 	private boolean isSucces;
 	
-	DAOFactory daos = DAOFactory.getDAOFactory(Persistance.ListeMemoire);
+	private DAOFactory dao;
+	
+	public void setDAOFactory(DAOFactory dao) {
+		this.dao = dao;
+	}
 	
 	public void setStage(Stage stage) {
 		this.stage = stage;
@@ -52,21 +56,21 @@ public class RevueDetailsController implements Initializable {
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-        try {
-			this.periodComboBox.setItems(FXCollections.observableArrayList(daos.getPeriodiciteDAO().getAll()));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Platform.runLater(() -> {
+	        try {
+				this.periodComboBox.setItems(FXCollections.observableArrayList(dao.getPeriodiciteDAO().getAll()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
-	public void initData(Revue revue) {
-		idRevue = revue.getId_revue();
-		this.titleField.setText(revue.getTitre());
-		this.descField.setText(revue.getDescription());
-		this.priceField.setText(String.valueOf(revue.getTarif_numero()));
-		idPeriod = revue.getId_periodicite();
-		// this.periodComboBox.setValue();
+	public void initData(RevueBuffer revue) {
+		idRevue = revue.getRevue().getId_revue();
+		this.titleField.setText(revue.getRevue().getTitre());
+		this.descField.setText(revue.getRevue().getDescription());
+		this.priceField.setText(String.valueOf(revue.getRevue().getTarif_numero()));
+		idPeriod = revue.getRevue().getId_periodicite();
 		
 		this.addButton.setVisible(false);
 		this.updateButton.setVisible(true);
@@ -80,7 +84,7 @@ public class RevueDetailsController implements Initializable {
 	public void addButton() {
 		if(fieldChecking()) {
 			try {
-				daos.getRevueDAO().create(this.getField());
+				dao.getRevueDAO().create(this.getField());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -96,7 +100,7 @@ public class RevueDetailsController implements Initializable {
 	public void updateButton() {
 		if(this.fieldChecking()) {
 			try {
-				daos.getRevueDAO().update(this.getField());
+				dao.getRevueDAO().update(this.getField());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

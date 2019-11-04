@@ -1,5 +1,8 @@
 package cpoa.projet.dao.mysql;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -9,6 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import cpoa.projet.dao.AbonnementDAO;
 import cpoa.projet.pojo.Abonnement;
@@ -26,15 +30,18 @@ public class MySQLAbonnementDAO implements AbonnementDAO {
 	}
 
 	private Connection connect() {
-		/* Version IUT
-		String url = "jdbc:mysql://devbdd.iutmetz.univ-lorraine.fr:3306/fauvet5u_java";
-		url += "?serverTimezone=Europe/Paris";
-		String login = "fauvet5u_appli";
-		String pwd = "31806272"; */
-
-		String url = "jdbc:mysql://localhost/java_td1";
-		String login = "root";
-		String pwd = "";
+		Properties dbAccess = new Properties();
+		File fDb = new File("config/db.properties");
+		try {
+			FileInputStream source = new FileInputStream(fDb);
+			dbAccess.loadFromXML(source);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String url = "jdbc:mysql://" + dbAccess.getProperty("ip") + dbAccess.getProperty("port") + "/" + dbAccess.getProperty("db");
+		String login = dbAccess.getProperty("login");
+		String pwd = dbAccess.getProperty("pwd");
 
 		Connection connect = null;
 

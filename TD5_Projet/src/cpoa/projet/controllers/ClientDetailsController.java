@@ -13,7 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-	public class ControllerDetailsClient implements Initializable {
+	public class ClientDetailsController {
 		@FXML private TextField firstnameField;
 		@FXML private TextField surnameField;
 		@FXML private TextField streetNbField;
@@ -31,15 +31,14 @@ import javafx.stage.Stage;
 		
 		private boolean isSucces;
 		
-		DAOFactory daos = DAOFactory.getDAOFactory(Persistance.ListeMemoire);
+		private DAOFactory dao;
+		
+		public void setDAOFactory(DAOFactory dao) {
+			this.dao = dao;
+		}
 		
 		public void setStage(Stage stage) {
 			this.stage = stage;
-		}
-		
-		@Override
-		public void initialize(URL arg0, ResourceBundle arg1) {
-			
 		}
 	
 		public void initData(Client client) {
@@ -63,7 +62,7 @@ import javafx.stage.Stage;
 		public void addButton() {
 			if(fieldCheckingFill()) {
 				try {
-					daos.getClientDAO().create(this.getField());
+					dao.getClientDAO().create(this.getField());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -79,7 +78,7 @@ import javafx.stage.Stage;
 		public void updateButton() {
 			if(this.fieldCheckingFill()) {
 				try {
-					daos.getClientDAO().update(this.getField());
+					dao.getClientDAO().update(this.getField());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

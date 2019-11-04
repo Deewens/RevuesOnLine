@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="detailsPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="226.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cpoa.projet.controllers.ControllerDetailsClient">
+<AnchorPane fx:id="detailsPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="226.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cpoa.projet.controllers.ClientDetailsController">
    <children>
       <AnchorPane layoutX="21.0" layoutY="19.0" prefHeight="189.0" prefWidth="543.0" style="-fx-border-color: black;">
          <children>

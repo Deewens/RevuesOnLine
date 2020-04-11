@@ -1,4 +1,6 @@
-# dudon_fauvet_CPOA
+# RevuesOnLine
+Logiciel permettant de gérer une base de données d'abonnements à des revues.
+
 Fonctionne :
 - Ajout, suppresion, modification pour chaque tables,
 - Filtres

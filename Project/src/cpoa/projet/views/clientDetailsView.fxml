@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane fx:id="detailsPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefHeight="226.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cpoa.projet.controllers.ClientDetailsController">
+   <children>
+      <AnchorPane layoutX="21.0" layoutY="19.0" prefHeight="189.0" prefWidth="543.0" style="-fx-border-color: black;">
+         <children>
+            <GridPane layoutX="39.0" layoutY="13.0" prefHeight="162.0" prefWidth="343.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="106.5999755859375" minWidth="10.0" prefWidth="86.19999999999999" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.4000244140625" minWidth="10.0" prefWidth="62.79997558593752" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="92.20001220703122" minWidth="10.0" prefWidth="76.4000244140625" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Nom" GridPane.halignment="RIGHT">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="firstnameField" prefHeight="26.0" prefWidth="126.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="surnameField" prefHeight="26.0" prefWidth="120.0" GridPane.columnIndex="3" />
+                  <Label text="Prénom" GridPane.columnIndex="2" GridPane.halignment="RIGHT">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Numéro de rue" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Voie" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Code postal" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+                  <Label text="Ville" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="streetNbField" prefHeight="26.0" prefWidth="126.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="streetField" prefHeight="26.0" prefWidth="126.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <TextField fx:id="zipField" prefHeight="26.0" prefWidth="126.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="cityField" prefHeight="26.0" prefWidth="126.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <Label text="Pays" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </Label>
+                  <TextField fx:id="countryField" prefHeight="26.0" prefWidth="126.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+            <Button fx:id="cancelButton" cancelButton="true" layoutX="467.0" layoutY="149.0" mnemonicParsing="false" onMouseClicked="#cancelButton" prefHeight="26.0" prefWidth="69.0" text="Annuler" />
+            <Button fx:id="addButton" layoutX="383.0" layoutY="149.0" mnemonicParsing="false" onMouseClicked="#addButton" prefWidth="69.0" text="Ajouter" />
+            <Button fx:id="updateButton" layoutX="383.0" layoutY="149.0" mnemonicParsing="false" onMouseClicked="#updateButton" prefHeight="26.0" prefWidth="69.0" text="Modifier" visible="false" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

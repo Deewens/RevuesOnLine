@@ -74,12 +74,12 @@ Software for managing a database of magazines.
 
 Developing a software by following the precepts of agility and implementing a set of best practices.
 
-	* Developed for : IUT (DUT Informatique)
-	* School Subject : CPOA
-	* Project Name : projet CPOA
-	* Semester : 3
-	* Duration : 8 weeks
-	* Number of people in project group : 2
+* Developed for : IUT (DUT Informatique)
+* School Subject : CPOA
+* Project Name : projet CPOA
+* Semester : 3
+* Duration : 8 weeks
+* Number of people in project group : 2
 
 ## Languages and technologies used
 

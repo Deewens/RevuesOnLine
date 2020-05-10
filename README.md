@@ -1,8 +1,14 @@
-> Version Française. (English version available below)
+> Version Française. (English version and screenshots available below)
 
 # RevuesOnLine
 
-Logiciel permettant de gérer une base de données d'abonnements à des revues.
+Logiciel permettant de gérer une base de données d'abonnements à des revues.  
+Le programme se compose de quatre menus :
+
+* Abonnements : permet de gérer la liste des abonnements de chaque personne.
+* Clients : liste de tous les clients et de leurs informations.
+* Périodicité : simple liste qui permet d'ajouter des périodes types d'abonnements (journalier, mensuel, etc.)
+* Revues : liste de tous les magazines avec le tarif, la description, la périodicité.
 
 ## Ce qui est fonctionnel :
 
@@ -93,3 +99,22 @@ Java, JavaFX, JUnit, MySQL, Git
 
 * Adrien Dudon (80%)
 * Olivier Fauvet (20%)
+
+# Screenshots
+## Accueil
+
+![Home](./img/cpoa_RevuesOnLine_accueil.png)
+
+## Abonnements
+
+![Subscriptions](./img/cpoa_RevuesOnLine_abonnements.png)
+
+## Clients
+
+![Clients](./img/cpoa_RevuesOnLine_clients.png)
+
+## Periodicité
+![Periodicity](./img/cpoa_RevuesOnLine_period.png)
+
+## Revues
+![Magazines](./img/cpoa_RevuesOnLine_revues.png)

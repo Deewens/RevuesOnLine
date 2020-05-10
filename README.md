@@ -1,4 +1,4 @@
-> French version. (English version available below)
+> Version Française. (English version available below)
 
 # RevuesOnLine
 
@@ -17,24 +17,23 @@ Logiciel permettant de gérer une base de données d'abonnements à des revues.
 
 * Comptage du nombre d'abonnement en cours dans les revues
 
-# Informations relatives au projet
+## Informations relatives au projet
 
-## Objectif du projet
+### Objectif du projet
 
 Développer un logiciel en suivant les préceptes de l'agilité et en mettant en œuvre un ensemble de bonnes pratiques.
 
 * Cadre : IUT (DUT Informatique)
 * Matière : CPOA
-* Projet : projet CPOA
 * Semestre : 3
 * Durée : 8 semaines
 * Nombre de personnes dans le groupe : 2
 
-## Langages et technologies utilisés
+### Langages et technologies utilisés
 
 Java, JavaFX, JUnit, MySQL, Git
 
-## Compétences visées
+### Compétences visées
 
 * Programmation événementielle
 * JDBC
@@ -42,7 +41,7 @@ Java, JavaFX, JUnit, MySQL, Git
 * Architecture MVC
 * Tests unitaires
 
-## Auteurs (avec % de répartition)
+### Auteurs (avec % de répartition)
 
 * Adrien Dudon (80%)
 * Olivier Fauvet (20%)
@@ -50,8 +49,6 @@ Java, JavaFX, JUnit, MySQL, Git
 ___
 
 > English version
-
-# RevuesOnLine
 
 Software for managing a database of magazines.
 
@@ -68,24 +65,23 @@ Software for managing a database of magazines.
 
 * Counting the number of current subscriptions to a magazine
 
-# Project information
+## Project information
 
-## Objective
+### Objective
 
 Developing a software by following the precepts of agility and implementing a set of best practices.
 
-* Developed for : IUT (DUT Informatique)
+* Developed with : University Institute of Technology (two-year university degree in IT)
 * School Subject : CPOA
-* Project Name : projet CPOA
 * Semester : 3
 * Duration : 8 weeks
 * Number of people in project group : 2
 
-## Languages and technologies used
+### Languages and technologies used
 
 Java, JavaFX, JUnit, MySQL, Git
 
-## Targeted skills
+### Targeted skills
 
 * Event programming
 * JDBC
@@ -93,7 +89,7 @@ Java, JavaFX, JUnit, MySQL, Git
 * MVC Architecture
 * Unit tests
 
-## Authors (witch % of assignment)
+### Authors (witch % of assignment)
 
 * Adrien Dudon (80%)
 * Olivier Fauvet (20%)

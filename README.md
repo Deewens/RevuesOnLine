@@ -54,9 +54,15 @@ Java, JavaFX, JUnit, MySQL, Git
 
 ___
 
-> English version
+> English version (screenshots below)
 
-Software for managing a database of magazines.
+Software for managing a database of magazines.  
+The program consists of four menus:
+
+* Abonnements (subscriptions): allows you to manage the list of subscriptions of each person.
+* Clients (Customers): list of all customers and their information.
+* Périodicité (Periodicity): a simple list that allows you to add typical subscription periods (daily, monthly, etc.).
+* Revues (Magazines): list of all magazines with price, description, periodicity.
 
 ## Working :
 

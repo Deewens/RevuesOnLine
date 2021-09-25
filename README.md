@@ -1,60 +1,4 @@
-> Version Française. (English version and screenshots available below)
-
 # RevuesOnLine
-
-Logiciel permettant de gérer une base de données d'abonnements à des revues.  
-Le programme se compose de quatre menus :
-
-* Abonnements : permet de gérer la liste des abonnements de chaque personne.
-* Clients : liste de tous les clients et de leurs informations.
-* Périodicité : simple liste qui permet d'ajouter des périodes types d'abonnements (journalier, mensuel, etc.)
-* Revues : liste de tous les magazines avec le tarif, la description, la périodicité.
-
-## Ce qui est fonctionnel :
-
-* Ajout, suppression, modification dans les listes,
-* Filtres
-* Trie
-* Suppression avec vérification (on ne peut pas supprimer quelque chose qui est déjà utilisé ailleurs)
-* Choix du mode de stockage
-* Activation des boutons d'ajouts/modifications quand un élément est sélectionné
-
-## Ne fonctionne pas :
-
-* Comptage du nombre d'abonnement en cours dans les revues
-
-## Informations relatives au projet
-
-### Objectif du projet
-
-Développer un logiciel en suivant les préceptes de l'agilité et en mettant en œuvre un ensemble de bonnes pratiques.
-
-* Cadre : IUT (DUT Informatique)
-* Matière : CPOA
-* Semestre : 3
-* Durée : 8 semaines
-* Nombre de personnes dans le groupe : 2
-
-### Langages et technologies utilisés
-
-Java, JavaFX, JUnit, MySQL, Git
-
-### Compétences visées
-
-* Programmation événementielle
-* JDBC
-* Design Pattern DAO
-* Architecture MVC
-* Tests unitaires
-
-### Auteurs (avec % de répartition)
-
-* Adrien Dudon (80%)
-* Olivier Fauvet (20%)
-
-___
-
-> English version (screenshots below)
 
 Software for managing a database of magazines.  
 The program consists of four menus:
@@ -64,7 +8,7 @@ The program consists of four menus:
 * Périodicité (Periodicity): a simple list that allows you to add typical subscription periods (daily, monthly, etc.).
 * Revues (Magazines): list of all magazines with price, description, periodicity.
 
-## Working :
+## Features
 
 * Adding, deleting and updating magzines list,
 * Filtering
@@ -73,27 +17,21 @@ The program consists of four menus:
 * Method storage choosing
 * Add/update button being activated only when item is selected
 
-## Do not working :
+## Known issues
 
 * Counting the number of current subscriptions to a magazine
 
 ## Project information
 
-### Objective
+### Description
 
-Developing a software by following the precepts of agility and implementing a set of best practices.
-
-* Developed with : University Institute of Technology (two-year university degree in IT)
-* School Subject : CPOA
-* Semester : 3
-* Duration : 8 weeks
-* Number of people in project group : 2
+Developing a software by following the precepts of agility and implementing a set of best practices in Object-Oriented Programming. This software has been created as part of the OOP courses during my studies.
 
 ### Languages and technologies used
 
-Java, JavaFX, JUnit, MySQL, Git
+Java, JavaFX for the GUI, JUnit for testing, MySQL, Git
 
-### Targeted skills
+### Skills
 
 * Event programming
 * JDBC
@@ -101,10 +39,9 @@ Java, JavaFX, JUnit, MySQL, Git
 * MVC Architecture
 * Unit tests
 
-### Authors (witch % of assignment)
+### Author
 
-* Adrien Dudon (80%)
-* Olivier Fauvet (20%)
+* Adrien Dudon
 
 # Screenshots
 ## Accueil
